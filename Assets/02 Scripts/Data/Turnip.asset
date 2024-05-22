@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c725f7b50daca2749a5b772d70d659f6, type: 3}
+  m_Name: Turnip
+  m_EditorClassIdentifier: 
+  cropName: Turnip
+  growTime: 12
+  earnCoins: 20
+  seedCost: 15
+  energyCost: 4
+  seedSprite: {fileID: -515929161, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  seedBagSprite: {fileID: -671553740, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  growStatesSprites:
+  - {fileID: -1410436775, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  - {fileID: 1129794726, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  - {fileID: 1246943175, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  cropSprite: {fileID: -1479982894, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}

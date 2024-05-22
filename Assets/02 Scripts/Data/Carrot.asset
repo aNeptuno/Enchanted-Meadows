@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c725f7b50daca2749a5b772d70d659f6, type: 3}
+  m_Name: Carrot
+  m_EditorClassIdentifier: 
+  cropName: Carrot
+  growTime: 12
+  earnCoins: 15
+  seedCost: 10
+  energyCost: 1
+  seedSprite: {fileID: -515929161, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  seedBagSprite: {fileID: 1573111324, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  growStatesSprites:
+  - {fileID: -1330713962, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  - {fileID: 1306124398, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  - {fileID: 1015906444, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  cropSprite: {fileID: 1929208348, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
