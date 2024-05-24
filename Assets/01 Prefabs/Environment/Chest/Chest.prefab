@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2884361887500593897}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.00020001849, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.00020073575, w: 1}
   m_LocalPosition: {x: -0.019, y: 3.354, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 6
   m_Sprite: {fileID: 1273595692, guid: 6eea2458770d05e49b3eb6e8063f9179, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -125,6 +125,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chestOpen: {fileID: 8024972499167506150}
   chestClose: {fileID: 8768712126605964964}
+  player: {fileID: 0}
+  cropsInChest:
+  - {fileID: 11400000, guid: d9e3562799e2c6e4fbadd62ca700b997, type: 2}
+  - {fileID: 11400000, guid: 8303bfae0e266ae4c98288a33c2d5761, type: 2}
+  - {fileID: 11400000, guid: 404e8c52489dc994796329b3c1ea393e, type: 2}
+  - {fileID: 11400000, guid: 6cc4b26a08acda5409f73b2fde1979df, type: 2}
+  - {fileID: 11400000, guid: 09ceef7a477a80b4baaadcb2352ba4cc, type: 2}
+  - {fileID: 11400000, guid: 219e73b263705ff4d91c12867bcf01fa, type: 2}
+  - {fileID: 11400000, guid: c14f8958b44fad24797348cdf68a1865, type: 2}
+  - {fileID: 11400000, guid: bbfb711a7f21b644b951c2404de69dde, type: 2}
+  debugCropIndex: 0
 --- !u!61 &396153584462661291
 BoxCollider2D:
   m_ObjectHideFlags: 0

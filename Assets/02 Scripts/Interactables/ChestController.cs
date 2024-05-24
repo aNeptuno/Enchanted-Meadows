@@ -5,6 +5,23 @@ using UnityEngine;
 
 public class ChestController : MonoBehaviour
 {
+    #region "Singleton"
+    public static ChestController Instance { get; private set; } // Singleton instance
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this; // If not, set it to this instance
+            DontDestroyOnLoad(gameObject); // Make this instance persist across scenes
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject); // Destroy this instance if another instance already exists
+        }
+    }
+    #endregion
+
     bool playerInTrigger;
 
     Animator animator;
@@ -17,8 +34,7 @@ public class ChestController : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private List<Crop> cropsInChest;
 
-    // for testing
-    [SerializeField] private int debugCropIndex = 0;
+    public List<Crop> CropsInChest {get => cropsInChest;}
 
     void Start()
     {
@@ -76,10 +92,10 @@ public class ChestController : MonoBehaviour
         }
         if (chestClose.isPlaying) chestClose.Stop();
 
-        GiveSeedToPlayer(debugCropIndex);
+        CanvasController.Instance.ShowChestUI();
     }
 
-    void CloseChest()
+    public void CloseChest()
     {
         chestClose.Stop();
         animator.Play("Close");
@@ -92,13 +108,17 @@ public class ChestController : MonoBehaviour
         }
         if (chestOpen.isPlaying) chestOpen.Stop();
 
+        CanvasController.Instance.HideChestUI();
         isOpened = false;
     }
 
-    void GiveSeedToPlayer(int cropIndex)
+    public void GiveSeedToPlayer(Crop cropToGive)
     {
-        if (cropsInChest[cropIndex].amountOfSeedsInStorage > 0)
-            player.GrabSeed(cropsInChest[cropIndex]);
+        if (cropToGive.amountOfSeedsInStorage > 0)
+        {
+            if (player != null)
+                player.GrabSeed(cropToGive);
+        }
     }
 
 

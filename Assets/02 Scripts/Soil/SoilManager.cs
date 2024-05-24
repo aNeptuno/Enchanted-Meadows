@@ -22,7 +22,7 @@ public class SoilManager : MonoBehaviour
             spacingX = 0f;
             for (int j = 0; j < columns; j++)
             {
-                Vector3 position = transform.position + new Vector3(-0.5f + spacingX, 1 - spacingY, 0);
+                Vector3 position = transform.position + new Vector3(3f + spacingX, 0.7f - spacingY, 0);
                 //Vector3 position = new Vector3(-0.5f + spacingX, 1 - spacingY, 0);
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity);
                 spacingX += 0.5f;
