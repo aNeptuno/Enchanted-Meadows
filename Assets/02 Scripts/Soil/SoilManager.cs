@@ -44,6 +44,14 @@ public class SoilManager : MonoBehaviour
             if (facingSoil != null)
                 facingSoil.IsFacing = true;
         }
+
+        if (GameManager.Instance.forceGrowAllCrops)
+        {
+            foreach(SoilController soil in soilControllers)
+                soil.ForceGrowCrops();
+
+            GameManager.Instance.forceGrowAllCrops = false;
+        }
     }
 
 

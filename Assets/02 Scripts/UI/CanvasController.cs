@@ -38,10 +38,18 @@ public class CanvasController : MonoBehaviour
 
     public GameObject GameStatsUIGameTime;
 
+    [Space(10)]
+
+    [Header("Bed UI")]
+    public GameObject BedUI;
+    public GameObject SleepFade;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && ChestUI.gameObject.activeSelf)
             HideChestUI();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && BedUI.gameObject.activeSelf)
+            HideBedUI();
 
         UpdateUICoins();
         UpdateUIEnergy();
@@ -83,6 +91,36 @@ public class CanvasController : MonoBehaviour
     void UpdateUIGameTime()
     {
 
+    }
+    #endregion
+
+    #region "Bed UI"
+    public void ShowBedUI()
+    {
+        BedUI.SetActive(true);
+    }
+
+    public void HideBedUI()
+    {
+        BedUI.SetActive(false);
+    }
+
+    public void Sleep()
+    {
+        StartCoroutine(SleepCoroutine());
+    }
+    IEnumerator SleepCoroutine()
+    {
+        if (BedUI.activeSelf)
+            BedUI.SetActive(false);
+
+        SleepFade.SetActive(true);
+        yield return new WaitForSeconds(3f);
+
+        GameManager.Instance.RestoreEnergy();
+        GameManager.Instance.GrowCrops();
+        SleepFade.SetActive(false);
+        // sonido de gallo
     }
     #endregion
 }
