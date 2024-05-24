@@ -34,7 +34,7 @@ public class ChestController : MonoBehaviour
     [SerializeField] private PlayerController player;
     [SerializeField] private List<Crop> cropsInChest;
 
-    public List<Crop> CropsInChest {get => cropsInChest;}
+    public List<Crop> CropsInChest {get => cropsInChest; set => cropsInChest = value;}
 
     void Start()
     {

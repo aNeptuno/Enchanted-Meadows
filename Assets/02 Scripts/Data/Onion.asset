@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cropName: Onion
   growTime: 30
-  earnCoins: 20
+  earnCoins: 40
   seedCost: 15
-  energyCost: 5
-  seedSprite: {fileID: -515929161, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  energyCost: 4
   seedBagSprite: {fileID: -708593171, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   growStatesSprites:
   - {fileID: 1119030916, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   - {fileID: 1716614458, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   - {fileID: 1807131040, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   cropSprite: {fileID: 801364720, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  amountOfSeedsInStorage: 2

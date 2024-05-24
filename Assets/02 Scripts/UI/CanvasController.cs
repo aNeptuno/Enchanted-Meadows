@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CanvasController : MonoBehaviour
@@ -21,18 +22,32 @@ public class CanvasController : MonoBehaviour
     }
     #endregion
 
+    public Sprite customCursorSprite;
+
+    [Header("Chest UI")]
     public GameObject ChestUI;
     public GameObject ChestUIButton;
 
     public ChestDescriptionUIController chestDescription;
 
-    public Sprite customCursorSprite;
+    [Space(10)]
+
+    [Header("Game Stats UI")]
+    public GameObject GameStatsUICoins;
+    public List<GameObject> GameStatsUIEnergy;
+
+    public GameObject GameStatsUIGameTime;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && ChestUI.gameObject.activeSelf)
             HideChestUI();
+
+        UpdateUICoins();
+        UpdateUIEnergy();
     }
+
+    #region "ChestUI"
     public void ShowChestUI()
     {
         ChestUI.SetActive(true);
@@ -49,4 +64,25 @@ public class CanvasController : MonoBehaviour
         if (ChestUIButton != null)
             ChestUIButton.SetActive(false);
     }
+    #endregion
+
+    #region "Game Stats UI"
+    void UpdateUICoins()
+    {
+        if (GameManager.Instance != null)
+            GameStatsUICoins.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerCoins.ToString();
+    }
+
+    void UpdateUIEnergy()
+    {
+        foreach(GameObject go in GameStatsUIEnergy)
+            go.SetActive(false);
+        GameStatsUIEnergy[GameManager.Instance.playerEnergy].SetActive(true);
+    }
+
+    void UpdateUIGameTime()
+    {
+
+    }
+    #endregion
 }

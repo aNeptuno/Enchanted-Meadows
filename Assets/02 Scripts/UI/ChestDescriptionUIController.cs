@@ -24,7 +24,7 @@ public class ChestDescriptionUIController : MonoBehaviour
 
     public void ShowDescription()
     {
-        descriptionName.GetComponent<TextMeshProUGUI>().text = selectedCrop.cropName;
+        descriptionName.GetComponent<TextMeshProUGUI>().text = selectedCrop.cropName + " (x"+selectedCrop.amountOfSeedsInStorage.ToString()+")";
         descriptionEarnCoins.GetComponent<TextMeshProUGUI>().text = selectedCrop.earnCoins.ToString();
         descriptionEnergyCost.GetComponent<TextMeshProUGUI>().text = selectedCrop.energyCost.ToString();
         descriptionGrowTime.GetComponent<TextMeshProUGUI>().text = selectedCrop.growTime.ToString();

@@ -82,6 +82,12 @@ public class PlayerController : MonoBehaviour
         {
             CurrentState = PlayerStates.IDLE;
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && seedInHand && !CanvasController.Instance.ChestUI.activeSelf)
+        {
+            seedInHand = null;
+            grabbedSeedContainer.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
@@ -150,4 +156,13 @@ public class PlayerController : MonoBehaviour
         grabbedSeedContainer.GetComponent<SpriteRenderer>().sprite = null;
     }
     #endregion
+
+    public void CollectCrop(Crop cropToGrab)
+    {
+        /*
+        Coin animation with coroutine and sound
+        */
+        GameManager.Instance.AddCoins(cropToGrab.earnCoins);
+        GameManager.Instance.DecreaseEnergy(cropToGrab.energyCost);
+    }
 }
