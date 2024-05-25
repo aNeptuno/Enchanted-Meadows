@@ -26,7 +26,7 @@ public class ChestController : MonoBehaviour
 
     Animator animator;
 
-    private bool isOpened = false;
+    public bool isOpened = false;
 
     public AudioSource chestOpen;
     public AudioSource chestClose;
@@ -39,12 +39,6 @@ public class ChestController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-
-        // testing (esto lo va a hacer la tienda luego)
-        foreach(Crop crop in cropsInChest)
-        {
-            crop.amountOfSeedsInStorage = 2;
-        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -85,12 +79,9 @@ public class ChestController : MonoBehaviour
         animator.Play("Open");
         animator.SetTrigger("OpenTrigger");
 
-        if (!chestOpen.isPlaying)
-        {
-            chestOpen.Play();
-            chestClose.Stop();
-        }
-        if (chestClose.isPlaying) chestClose.Stop();
+        //Sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("ChestOpen", false);
 
         CanvasController.Instance.ShowChestUI();
     }
@@ -101,15 +92,12 @@ public class ChestController : MonoBehaviour
         animator.Play("Close");
         animator.SetTrigger("CloseTrigger");
 
-        if (!chestClose.isPlaying)
-        {
-            chestClose.Play();
-            chestOpen.Stop();
-        }
-        if (chestOpen.isPlaying) chestOpen.Stop();
+        //Sound
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("ChestClose", false);
 
-        CanvasController.Instance.HideChestUI();
         isOpened = false;
+        CanvasController.Instance.HideChestUI();
     }
 
     public void GiveSeedToPlayer(Crop cropToGive)

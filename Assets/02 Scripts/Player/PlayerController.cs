@@ -30,10 +30,10 @@ public class PlayerController : MonoBehaviour
                 case PlayerStates.RUN:
                 animator.Play("Walk");
                 break;
-                case PlayerStates.TILING: // Add animation
+                case PlayerStates.TILING:
                 animator.Play("Tiling");
                 break;
-                case PlayerStates.WATERING: // Add animation
+                case PlayerStates.WATERING:
                 animator.Play("Watering");
                 break;
             }

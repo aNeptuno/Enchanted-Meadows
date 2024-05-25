@@ -37,12 +37,8 @@ public class Door : MonoBehaviour
         animator.SetBool("DoorOpen",true);
 
         // Audio
-        if (!doorOpen.isPlaying)
-        {
-            doorOpen.Play();
-            doorClose.Stop();
-        }
-        if (doorClose.isPlaying) doorClose.Stop();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("DoorOpen", false);
     }
 
     void CloseDoor()
@@ -50,11 +46,7 @@ public class Door : MonoBehaviour
         animator.SetBool("DoorOpen",false);
 
         // Audio
-        if (!doorClose.isPlaying)
-        {
-            doorClose.Play();
-            doorOpen.Stop();
-        }
-        if (doorOpen.isPlaying) doorOpen.Stop();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("DoorClose", false);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -20,8 +21,12 @@ public class MyDebugLog : MonoBehaviour
     }
     #endregion
 
-	public void MyDebugFunc(string msg, VariableDeclaration variable = null, string color = "yellow")
+	public void MyDebugFunc(string msg, string variable, string color = "yellow")
 	{
 		Debug.Log("<color="+color+">"+msg+ "" +variable+" </color>");
 	}
+}
+
+public class T
+{
 }

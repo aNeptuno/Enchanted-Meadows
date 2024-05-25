@@ -64,6 +64,9 @@ public class CanvasController : MonoBehaviour
 
     public void HideChestUI()
     {
+        if (ChestController.Instance != null && ChestController.Instance.isOpened)
+            ChestController.Instance.CloseChest();
+
         if (ChestUI != null)
         {
             chestDescription.ResetDescription();
@@ -71,6 +74,8 @@ public class CanvasController : MonoBehaviour
         }
         if (ChestUIButton != null)
             ChestUIButton.SetActive(false);
+
+
     }
     #endregion
 
