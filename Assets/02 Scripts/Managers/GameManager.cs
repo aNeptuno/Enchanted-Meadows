@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     public bool forceGrowAllCrops = false;
 
+    public bool newGame = true;
+
     #region  "Game Start"
     void Start()
     {

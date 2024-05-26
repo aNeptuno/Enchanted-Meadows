@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CanvasController : MonoBehaviour
 {
@@ -21,8 +22,6 @@ public class CanvasController : MonoBehaviour
         }
     }
     #endregion
-
-    public Sprite customCursorSprite;
 
     [Header("Chest UI")]
     public GameObject ChestUI;
@@ -154,17 +153,12 @@ public class CanvasController : MonoBehaviour
 
     public void Travel()
     {
+        MyDebugLog.Instance.MyDebugFunc("Travel");
         StartCoroutine(FadeEffect(1f));
 
         if (Bridge.Instance != null)
             Bridge.Instance.Travel();
-    }
-
-    IEnumerator FadeEffect(float time)
-    {
-        SleepFade.SetActive(true);
-        yield return new WaitForSeconds(time);
-        SleepFade.SetActive(false);
+        else Debug.Log("Bridge is null");
     }
     #endregion
 
@@ -172,12 +166,21 @@ public class CanvasController : MonoBehaviour
     public void ShowStoreUI()
     {
         StoreUI.SetActive(true);
+        StoreUIButton.SetActive(true);
     }
 
     public void HideStoreUI()
     {
         StoreUI.SetActive(false);
+        StoreUIButton.SetActive(false);
     }
     #endregion
+
+    IEnumerator FadeEffect(float time)
+    {
+        SleepFade.SetActive(true);
+        yield return new WaitForSeconds(time);
+        SleepFade.SetActive(false);
+    }
 
 }

@@ -14,7 +14,7 @@ public class Bridge : MonoBehaviour
         if (Instance == null)
         {
             Instance = this; // If not, set it to this instance
-            DontDestroyOnLoad(gameObject); // Make this instance persist across scenes
+            //DontDestroyOnLoad(gameObject); // Make this instance persist across scenes
         }
         else if (Instance != this)
         {

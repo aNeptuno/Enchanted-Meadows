@@ -24,7 +24,8 @@ public class HouseFloor : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInsideHouse = true;
-            rooftFadeController.DeactivateWithFade();
+            if (rooft.activeSelf)
+                rooftFadeController.DeactivateWithFade();
         }
     }
 
@@ -33,7 +34,8 @@ public class HouseFloor : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInsideHouse = false;
-            rooftFadeController.ActivateWithFade();
+            if (!rooft.activeSelf)
+                rooftFadeController.ActivateWithFade();
         }
     }
 }

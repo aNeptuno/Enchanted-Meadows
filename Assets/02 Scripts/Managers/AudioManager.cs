@@ -48,6 +48,12 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void AssignPlayer()
+    {
+        if (player == null)
+            player = FindObjectOfType<PlayerController>();
+    }
+
     public void PlayMusic(string name)
     {
         Sound s = Array.Find(musicSounds, x => x.soundName == name);
@@ -61,6 +67,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(string name, bool player)
     {
+        MyDebugLog.Instance.MyDebugFunc("SFX: ",name);
         if (!player)
         {
             Sound s = Array.Find(sfxSounds, x => x.soundName == name);
