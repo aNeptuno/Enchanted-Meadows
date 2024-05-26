@@ -12,7 +12,6 @@ public class ChestUIController : MonoBehaviour
     [SerializeField] private List<GameObject> itemListContainers;
     [SerializeField] private List<ChestItemUIController> itemListControllers;
 
-    /* [Header("Chest description")] */
     void Start()
     {
         ShowCropsInChestInUI();

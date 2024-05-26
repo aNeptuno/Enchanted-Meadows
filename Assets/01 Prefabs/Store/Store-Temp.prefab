@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4421837544724098245}
   - component: {fileID: 4188238354689176177}
   - component: {fileID: 3767349120098449304}
+  - component: {fileID: 5893231551809986919}
   m_Layer: 0
   m_Name: Store-Temp
   m_TagString: Untagged
@@ -118,7 +119,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01587987, y: -0.007940292}
+  m_Offset: {x: -0.003954053, y: -0.03269738}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -129,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8493705, y: 0.9287729}
+  m_Size: {x: 1.6353271, y: 1.4742457}
   m_EdgeRadius: 0
 --- !u!61 &3767349120098449304
 BoxCollider2D:
@@ -176,3 +177,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.50000024}
   m_EdgeRadius: 0
+--- !u!114 &5893231551809986919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092926804795240153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca870a53e8212b9458e74f81c264c191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

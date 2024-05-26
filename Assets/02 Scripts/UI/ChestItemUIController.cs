@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,7 +8,11 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
 {
     public Crop thisCrop;
 
+    public bool isStore;
+
     Dictionary<string,GameObject> posibleCropBags = new Dictionary<string,GameObject>();
+
+    [SerializeField] private ChestDescriptionUIController descriptionUI;
 
 
     void Awake()
@@ -44,10 +49,21 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
     // -- Give Seed To Player
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (ChestController.Instance != null)
+        if (!isStore)
         {
-            ChestController.Instance.GiveSeedToPlayer(thisCrop);
-            CanvasController.Instance.HideChestUI();
+            if (ChestController.Instance != null)
+            {
+                ChestController.Instance.GiveSeedToPlayer(thisCrop);
+                CanvasController.Instance.HideChestUI();
+            }
+        }
+        else if (isStore && GameManager.Instance.playerCoins >= thisCrop.seedCost)
+        {
+            // Buy crop
+            thisCrop.amountOfSeedsInStorage++;
+            GameManager.Instance.RemoveCoins(thisCrop.seedCost);
+            AudioManager.Instance.PlaySFX("BuySell", false);
+            descriptionUI.ShowDescription();
         }
     }
 

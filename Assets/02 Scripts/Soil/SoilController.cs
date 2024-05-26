@@ -70,7 +70,7 @@ public class SoilController : MonoBehaviour
             }
 
             // Plant seed
-            if (Input.GetKeyDown(KeyCode.E) && (wateredTile.activeInHierarchy || tilledTile.activeInHierarchy) && !seededTile.activeInHierarchy)
+            if (Input.GetKeyDown(KeyCode.E) && !startedGrowing && (wateredTile.activeInHierarchy || tilledTile.activeInHierarchy) && !seededTile.activeInHierarchy)
                 PlantSeed();
 
         }
@@ -151,7 +151,6 @@ public class SoilController : MonoBehaviour
             timeMult = timeMult + 1f;
         }
         currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.cropSprite;
-        MyDebugLog.Instance.MyDebugFunc("READY TO COLLECT!",null,"green"); // play sound
         readyToCollect = true;
     }
 

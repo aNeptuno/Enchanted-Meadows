@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 900732853942280674}
   - component: {fileID: 5598542416867610921}
   - component: {fileID: 2589374624748702871}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 4675168072404141953}
   - component: {fileID: 1093870775206457225}
   - component: {fileID: 802793159859176210}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: GrabbedSeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

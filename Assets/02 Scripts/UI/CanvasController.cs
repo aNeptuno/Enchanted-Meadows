@@ -43,6 +43,19 @@ public class CanvasController : MonoBehaviour
     [Header("Bed UI")]
     public GameObject BedUI;
     public GameObject SleepFade;
+
+    [Space(10)]
+
+    [Header("Bridge UI")]
+    public GameObject BridgeUIHouse;
+    public GameObject BridgeUITown;
+
+    [Space(10)]
+
+    [Header("Store UI")]
+    public GameObject StoreUI;
+    public GameObject StoreUIButton;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && ChestUI.gameObject.activeSelf)
@@ -112,20 +125,59 @@ public class CanvasController : MonoBehaviour
 
     public void Sleep()
     {
-        StartCoroutine(SleepCoroutine());
-    }
-    IEnumerator SleepCoroutine()
-    {
         if (BedUI.activeSelf)
             BedUI.SetActive(false);
 
-        SleepFade.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        FadeEffect(3f);
 
         GameManager.Instance.RestoreEnergy();
         GameManager.Instance.GrowCrops();
-        SleepFade.SetActive(false);
         // sonido de gallo
     }
+
     #endregion
+
+    #region "Bridge UI"
+    public void ShowBridgeUI(bool fromHouse)
+    {
+        BridgeUIHouse.SetActive(fromHouse);
+        BridgeUITown.SetActive(!fromHouse);
+    }
+
+    public void HideBridgeUI(bool fromHouse)
+    {
+        if (fromHouse && BridgeUIHouse.activeSelf)
+            BridgeUIHouse.SetActive(false);
+        else if (BridgeUITown.activeSelf)
+            BridgeUITown.SetActive(false);
+    }
+
+    public void Travel()
+    {
+        StartCoroutine(FadeEffect(1f));
+
+        if (Bridge.Instance != null)
+            Bridge.Instance.Travel();
+    }
+
+    IEnumerator FadeEffect(float time)
+    {
+        SleepFade.SetActive(true);
+        yield return new WaitForSeconds(time);
+        SleepFade.SetActive(false);
+    }
+    #endregion
+
+    #region "Store"
+    public void ShowStoreUI()
+    {
+        StoreUI.SetActive(true);
+    }
+
+    public void HideStoreUI()
+    {
+        StoreUI.SetActive(false);
+    }
+    #endregion
+
 }

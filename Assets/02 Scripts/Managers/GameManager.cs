@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         if (ChestController.Instance !=null)
         {
             foreach(Crop crop in ChestController.Instance.CropsInChest)
-                crop.amountOfSeedsInStorage = 6;
+                crop.amountOfSeedsInStorage = 2;
         }
         RestoreEnergy();
     }

@@ -159,9 +159,11 @@ public class PlayerController : MonoBehaviour
 
     public void CollectCrop(Crop cropToGrab)
     {
-        /*
-        Coin animation with coroutine and sound
-        */
+        // Coin animation
+
+        // Sound
+        AudioManager.Instance.PlaySFX("Collect",false);
+        // UI
         GameManager.Instance.AddCoins(cropToGrab.earnCoins);
         GameManager.Instance.DecreaseEnergy(cropToGrab.energyCost);
     }
