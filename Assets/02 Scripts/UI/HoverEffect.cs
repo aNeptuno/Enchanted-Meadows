@@ -6,6 +6,8 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
 
     public Color hoverColor = new Color (0,1,0,0.5f);
+
+    public Color hoverColorRed = new Color (1,0,0,1f);
     private Color originalColor;
     private Image image;
 
@@ -19,8 +21,18 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.color = hoverColor;
         descriptionUI.selectedCrop = this.GetComponent<ChestItemUIController>().thisCrop;
+
+        if (this.GetComponent<ChestItemUIController>().isStore)
+        {
+            if (descriptionUI.selectedCrop.seedCost > GameManager.Instance.playerCoins)
+            {
+                image.color = hoverColorRed;
+            }
+            else image.color = hoverColor;
+        }
+        else image.color = hoverColor;
+
         descriptionUI.ShowDescription();
     }
 

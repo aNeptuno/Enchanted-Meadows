@@ -12,15 +12,17 @@ public class MainMenuUI : MonoBehaviour
     #region "Main Menu"
     public void StartGame()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
         StartCoroutine(FadeEffect(1f));
         MainMenu.SetActive(false);
         SceneManager.LoadScene("Scene01");
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.AssignPlayer();
     }
 
     public void ExitGame()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
         // Si estamos en el editor de Unity, detener el juego
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

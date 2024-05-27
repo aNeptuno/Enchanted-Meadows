@@ -36,6 +36,7 @@ public class CanvasController : MonoBehaviour
     public List<GameObject> GameStatsUIEnergy;
 
     public GameObject GameStatsUIGameTime;
+    public GameObject GameStatsUIGameTimeDay;
 
     [Space(10)]
 
@@ -57,14 +58,16 @@ public class CanvasController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && ChestUI.gameObject.activeSelf)
-            HideChestUI();
-
-        if (Input.GetKeyDown(KeyCode.Escape) && BedUI.gameObject.activeSelf)
-            HideBedUI();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (ChestUI.gameObject.activeSelf) HideChestUI();
+            if (BedUI.gameObject.activeSelf) HideBedUI();
+            if (StoreUI.gameObject.activeSelf) HideStoreUI();
+        }
 
         UpdateUICoins();
         UpdateUIEnergy();
+        UpdateUIGameTime();
     }
 
     #region "ChestUI"
@@ -107,7 +110,8 @@ public class CanvasController : MonoBehaviour
 
     void UpdateUIGameTime()
     {
-
+        GameStatsUIGameTime.GetComponent<TextMeshProUGUI>().text = TimeSystem.Instance.FormatTime();
+        GameStatsUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = "Day " + TimeSystem.Instance.days.ToString();
     }
     #endregion
 
@@ -124,6 +128,9 @@ public class CanvasController : MonoBehaviour
 
     public void Sleep()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
         if (BedUI.activeSelf)
             BedUI.SetActive(false);
 
@@ -153,7 +160,9 @@ public class CanvasController : MonoBehaviour
 
     public void Travel()
     {
-        MyDebugLog.Instance.MyDebugFunc("Travel");
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
         StartCoroutine(FadeEffect(1f));
 
         if (Bridge.Instance != null)

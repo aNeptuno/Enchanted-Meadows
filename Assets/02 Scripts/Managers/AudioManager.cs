@@ -1,6 +1,7 @@
 using System.Collections;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -48,11 +49,27 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    #region "Player Assignation"
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        AssignPlayer();
+    }
     public void AssignPlayer()
     {
         if (player == null)
             player = FindObjectOfType<PlayerController>();
     }
+    #endregion
 
     public void PlayMusic(string name)
     {
@@ -67,16 +84,16 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySFX(string name, bool player)
     {
-        MyDebugLog.Instance.MyDebugFunc("SFX: ",name);
+        //MyDebugLog.Instance.MyDebugFunc("SFX: ",name);
         if (!player)
         {
             Sound s = Array.Find(sfxSounds, x => x.soundName == name);
-
             if (s != null)
             {
                 sfxSource.clip = s.clip;
                 if (!sfxSource.isPlaying)
                     sfxSource.Play();
+                else if(name == "BuySell") sfxSource.Play();
             }
 
             else MyDebugLog.Instance.MyDebugFunc("SFX not found in sfxSounds: ",name);
@@ -87,9 +104,9 @@ public class AudioManager : MonoBehaviour
 
             if (s != null)
             {
-                sfxSource.clip = s.clip;
-                if (!sfxSource.isPlaying)
-                    sfxSource.Play();
+                sfxPlayerSource.clip = s.clip;
+                if (!sfxPlayerSource.isPlaying)
+                    sfxPlayerSource.Play();
             }
 
             else MyDebugLog.Instance.MyDebugFunc("SFX not found in sfxPlayerSounds: ",name);

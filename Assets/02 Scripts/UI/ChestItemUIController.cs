@@ -53,17 +53,27 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
         {
             if (ChestController.Instance != null)
             {
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlaySFX("Menu",false);
+
                 ChestController.Instance.GiveSeedToPlayer(thisCrop);
                 CanvasController.Instance.HideChestUI();
             }
         }
-        else if (isStore && GameManager.Instance.playerCoins >= thisCrop.seedCost)
+        else if (isStore)
         {
-            // Buy crop
-            thisCrop.amountOfSeedsInStorage++;
-            GameManager.Instance.RemoveCoins(thisCrop.seedCost);
-            AudioManager.Instance.PlaySFX("BuySell", false);
-            descriptionUI.ShowDescription();
+            if (GameManager.Instance.playerCoins >= thisCrop.seedCost)
+            {
+                // Buy crop
+                thisCrop.amountOfSeedsInStorage++;
+                GameManager.Instance.RemoveCoins(thisCrop.seedCost);
+                AudioManager.Instance.PlaySFX("BuySell", false);
+                descriptionUI.ShowDescription();
+            }
+            else
+            {
+                AudioManager.Instance.PlaySFX("No", false);
+            }
         }
     }
 

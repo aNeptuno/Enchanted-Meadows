@@ -34,19 +34,19 @@ public class Door : MonoBehaviour
 
     void OpenDoor()
     {
-        animator.SetBool("DoorOpen",true);
-
         // Audio
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX("DoorOpen", false);
+
+        animator.SetBool("DoorOpen",true);
     }
 
     void CloseDoor()
     {
-        animator.SetBool("DoorOpen",false);
-
         // Audio
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX("DoorClose", false);
+
+        animator.SetBool("DoorOpen",false);
     }
 }

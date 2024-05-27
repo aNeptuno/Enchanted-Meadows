@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChestController : MonoBehaviour
 {
@@ -39,6 +40,11 @@ public class ChestController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+
+        if (SceneManager.GetActiveScene().name != "Scene01")
+        {
+            transform.position = new Vector3(100f,100f,1f);
+        }
     }
     void OnTriggerEnter2D(Collider2D other)
     {

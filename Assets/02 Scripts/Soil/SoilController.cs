@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Transactions;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,6 +29,8 @@ public class SoilController : MonoBehaviour
     private bool startedGrowing = false;
 
     private bool readyToCollect = false;
+
+    private float growTime;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -72,10 +75,9 @@ public class SoilController : MonoBehaviour
             // Plant seed
             if (Input.GetKeyDown(KeyCode.E) && !startedGrowing && (wateredTile.activeInHierarchy || tilledTile.activeInHierarchy) && !seededTile.activeInHierarchy)
                 PlantSeed();
-
         }
 
-        if (startGrowing && !startedGrowing && !GameManager.Instance.forceGrowAllCrops)
+        if (startGrowing && !startedGrowing)
             GrowSeed();
 
         if (playerInTrigger && IsFacing && readyToCollect && Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerEnergy > 0)
@@ -84,10 +86,7 @@ public class SoilController : MonoBehaviour
             StartCoroutine(ResetSoil(0.8f));
         }
 
-        /* if (GameManager.Instance.forceGrowAllCrops)
-        {
-            ForceGrowCrops();
-        } */
+        if (GameManager.Instance.forceGrowCrops) growTime = 0f;
     }
 
     private IEnumerator ActivateMap(bool natural, bool tilled, bool watered, bool seeded)
@@ -106,6 +105,7 @@ public class SoilController : MonoBehaviour
             if (player.seedInHand != null)
             {
                 currentCrop = player.seedInHand;
+                growTime = currentCrop.growTime;
 
                 if (wateredTile.activeInHierarchy)
                     StartCoroutine(ActivateMap(false,false,true,true));
@@ -134,7 +134,7 @@ public class SoilController : MonoBehaviour
     IEnumerator GrowingCrop()
     {
         List<Sprite> statesSprites = currentCrop.growStatesSprites;
-        float growTime = currentCrop.growTime;
+        //float growTime = currentCrop.growTime;
 
         yield return new WaitForSeconds(growTime);
 
@@ -144,8 +144,6 @@ public class SoilController : MonoBehaviour
         float timeMult = 1f;
         for(int i = 0; i < statesSprites.Count; i++)
         {
-            if (GameManager.Instance.forceGrowAllCrops)
-                yield return null;
             currentCropState.GetComponent<SpriteRenderer>().sprite = statesSprites[i];
             yield return new WaitForSeconds(growTime * timeMult);
             timeMult = timeMult + 1f;
@@ -166,17 +164,18 @@ public class SoilController : MonoBehaviour
         StartCoroutine(ActivateMap(true,false,false,false));
     }
 
-    public void ForceGrowCrops()
+    /* public void ForceGrowCrops()
     {
-        if (currentCropState.GetComponent<SpriteRenderer>().sprite != null)
-            currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.cropSprite;
-        readyToCollect = true;
-
+        isForcedToGrow = GameManager.Instance.forceGrowAllCrops;
         if (startedGrowing == true)
             ResetSoil(0.1f);
         else startedGrowing = true;
         seededTile.SetActive(false);
         ResetSoil(0.1f);
-    }
+
+        if (currentCropState.GetComponent<SpriteRenderer>().sprite != null)
+            currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.cropSprite;
+        readyToCollect = true;
+    } */
 
 }

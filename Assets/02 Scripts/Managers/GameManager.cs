@@ -25,20 +25,28 @@ public class GameManager : MonoBehaviour
     public int playerEnergy = 4;
     public int playerCoins = 10;
 
-    public bool forceGrowAllCrops = false;
+    public bool forceGrowCrops = false;
 
     public bool newGame = true;
 
     #region  "Game Start"
     void Start()
     {
-        // TESTING
-        if (ChestController.Instance !=null)
+        if (newGame)
         {
-            foreach(Crop crop in ChestController.Instance.CropsInChest)
-                crop.amountOfSeedsInStorage = 2;
+            if (ChestController.Instance !=null)
+            {
+                foreach(Crop crop in ChestController.Instance.CropsInChest)
+                    crop.amountOfSeedsInStorage = 4;
+            }
+            RestoreEnergy();
+
+            TimeSystem.Instance.days = 1;
+
+            SoilManager.Instance.GenerateSoil();
+
+            newGame = false;
         }
-        RestoreEnergy();
     }
     #endregion
     #region  "Coins"
@@ -77,7 +85,10 @@ public class GameManager : MonoBehaviour
 
     public void GrowCrops()
     {
-        forceGrowAllCrops = true;
+        forceGrowCrops = true;
+        /* SoilController[] allSoilControllers = FindObjectsOfType<SoilController>();
+        foreach(SoilController soil in allSoilControllers)
+            soil.ForceGrowCrops(); */
     }
     #endregion
 
