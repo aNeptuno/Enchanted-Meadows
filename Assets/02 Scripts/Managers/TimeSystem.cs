@@ -27,6 +27,21 @@ public class TimeSystem : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+    }
+
+    void Start()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameStats loadGame = DataManager.Instance.DeserializeJson();
+            if (loadGame != null)
+            {
+                hours = loadGame.Hours;
+                minutes = loadGame.Minutes;
+                days = loadGame.Days;
+            }
+        }
     }
 
     private void Update()

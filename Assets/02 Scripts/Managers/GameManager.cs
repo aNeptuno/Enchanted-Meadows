@@ -1,6 +1,9 @@
-using System.Collections;
+
+using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,34 +24,81 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    [Tooltip("From 0 to 4")]
-    public int playerEnergy = 4;
-    public int playerCoins = 10;
+    #region  "Data Variables"
+    public int playerEnergy;
+    public int playerCoins;
+    public bool newGame;
+    public string playerName;
 
+    public List<Crop> cropsInChest;
+
+    #endregion
     public bool forceGrowCrops = false;
 
-    public bool newGame = true;
+    //------------------------------
 
-    #region  "Game Start"
+    #region "DATA SERVICE"
+    private GameStats GameStats = new GameStats(); //new declaration cause it overrides
+
+    public void SaveGame()
+    {
+        GameStats.SaveTime(TimeSystem.Instance.hours, TimeSystem.Instance.minutes, TimeSystem.Instance.days);
+        GameStats.SaveGameStats(playerName, playerEnergy, playerCoins, newGame);//, cropsInChest);
+        DataManager.Instance.SerializeJson();
+    }
+
+    public void NewGame()
+    {
+        DataManager.Instance.NewGame();
+    }
+
+    public void LoadGame() // obtain data
+    {
+        GameStats LoadedGame = DataManager.Instance.DeserializeJson(); // como se inicializa desde menu start, no deberia ser nulo
+
+        playerEnergy = LoadedGame.PlayerEnergy;
+        playerCoins = LoadedGame.PlayerCoins;
+        newGame = LoadedGame.NewGame;
+        playerName =  LoadedGame.PlayerName;
+
+        string text = "Loaded data: \r\n" + JsonConvert.SerializeObject(LoadedGame, Formatting.Indented);
+        Debug.Log(text);
+    }
+
+    #endregion
+
+    #region  "Game Start Initialization"
     void Start()
     {
+        LoadGame();
+
+        if (ChestController.Instance !=null)
+        {
+            foreach(Crop crop in ChestController.Instance.CropsInChest)
+                cropsInChest.Add(crop);
+        }
+
         if (newGame)
         {
-            if (ChestController.Instance !=null)
-            {
-                foreach(Crop crop in ChestController.Instance.CropsInChest)
-                    crop.amountOfSeedsInStorage = 4;
-            }
-            RestoreEnergy();
-
-            TimeSystem.Instance.days = 1;
-
-            SoilManager.Instance.GenerateSoil();
-
-            newGame = false;
+            GameInitialization();
+            SaveGame();
         }
     }
+
+    public void GameInitialization()
+    {
+        if (ChestController.Instance !=null)
+        {
+            foreach(Crop crop in ChestController.Instance.CropsInChest)
+                crop.amountOfSeedsInStorage = 4;
+        }
+
+        SoilManager.Instance.GenerateSoil();
+
+        newGame = false;
+    }
     #endregion
+
     #region  "Coins"
     public void AddCoins(int amount)
     {
@@ -86,9 +136,6 @@ public class GameManager : MonoBehaviour
     public void GrowCrops()
     {
         forceGrowCrops = true;
-        /* SoilController[] allSoilControllers = FindObjectsOfType<SoilController>();
-        foreach(SoilController soil in allSoilControllers)
-            soil.ForceGrowCrops(); */
     }
     #endregion
 

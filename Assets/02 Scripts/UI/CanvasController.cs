@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -191,5 +192,31 @@ public class CanvasController : MonoBehaviour
         yield return new WaitForSeconds(time);
         SleepFade.SetActive(false);
     }
+
+//------------------------------
+
+    #region "DATA SERVICE"
+
+    public void SaveGame()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.SaveGame();
+    }
+
+    public void NewGame()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.NewGame();
+    }
+
+    public void LoadGame()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.LoadGame();
+    }
+
+
+
+    #endregion
 
 }
