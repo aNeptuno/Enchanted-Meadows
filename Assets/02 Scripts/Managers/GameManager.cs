@@ -30,24 +30,30 @@ public class GameManager : MonoBehaviour
     public bool newGame;
     public string playerName;
 
-    public List<Crop> cropsInChest;
+    /* public List<Crop> cropsInChest; */
 
     #endregion
     public bool forceGrowCrops = false;
 
     //------------------------------
 
-    #region "DATA SERVICE"
-    private GameStats GameStats = new GameStats(); //new declaration cause it overrides
-
+    #region "SAVE GAME - LOAD GAME"
     public void SaveGame()
     {
-        GameStats.SaveTime(TimeSystem.Instance.hours, TimeSystem.Instance.minutes, TimeSystem.Instance.days);
-        GameStats.SaveGameStats(playerName, playerEnergy, playerCoins, newGame);//, cropsInChest);
-        DataManager.Instance.SerializeJson();
+        // Save game stats
+        DataManager.Instance.NewGameStats(playerName, playerEnergy, playerCoins, newGame);
+        DataManager.Instance.GameStatsSaveTime(TimeSystem.Instance.hours, TimeSystem.Instance.minutes, TimeSystem.Instance.days);
+
+        // Save chest state
+        DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest);
+
+        // Save soil state
+
+        // Save all to file
+        DataManager.Instance.SerializeJson(true,true,true);
     }
 
-    public void NewGame()
+    public void NewGame() // testing
     {
         DataManager.Instance.NewGame();
     }
@@ -61,8 +67,14 @@ public class GameManager : MonoBehaviour
         newGame = LoadedGame.NewGame;
         playerName =  LoadedGame.PlayerName;
 
-        string text = "Loaded data: \r\n" + JsonConvert.SerializeObject(LoadedGame, Formatting.Indented);
+        string text = "Loaded game data (From Game Manager): \r\n" + JsonConvert.SerializeObject(LoadedGame, Formatting.Indented);
         Debug.Log(text);
+    }
+
+    public void LoadChestState()
+    {
+        ChestState LoadedChest = DataManager.Instance.DeserializeJsonChest();
+        DataManager.Instance.ParseAndAddToChest(LoadedChest.cropsInChest);
     }
 
     #endregion
@@ -71,28 +83,18 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         LoadGame();
+        LoadChestState();
 
-        if (ChestController.Instance !=null)
-        {
-            foreach(Crop crop in ChestController.Instance.CropsInChest)
-                cropsInChest.Add(crop);
-        }
 
-        if (newGame)
-        {
+        /* if (newGame)
+        { */
             GameInitialization();
             SaveGame();
-        }
+        /* } */
     }
 
     public void GameInitialization()
     {
-        if (ChestController.Instance !=null)
-        {
-            foreach(Crop crop in ChestController.Instance.CropsInChest)
-                crop.amountOfSeedsInStorage = 4;
-        }
-
         SoilManager.Instance.GenerateSoil();
 
         newGame = false;

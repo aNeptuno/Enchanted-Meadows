@@ -44,3 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664565276a44ae44ea2a99a276da4989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  availableCropsInGame:
+  - {fileID: 11400000, guid: 8303bfae0e266ae4c98288a33c2d5761, type: 2}
+  - {fileID: 11400000, guid: 219e73b263705ff4d91c12867bcf01fa, type: 2}
+  - {fileID: 11400000, guid: d9e3562799e2c6e4fbadd62ca700b997, type: 2}
+  - {fileID: 11400000, guid: 404e8c52489dc994796329b3c1ea393e, type: 2}
+  - {fileID: 11400000, guid: 09ceef7a477a80b4baaadcb2352ba4cc, type: 2}
+  - {fileID: 11400000, guid: c14f8958b44fad24797348cdf68a1865, type: 2}
+  - {fileID: 11400000, guid: 6cc4b26a08acda5409f73b2fde1979df, type: 2}
+  - {fileID: 11400000, guid: bbfb711a7f21b644b951c2404de69dde, type: 2}

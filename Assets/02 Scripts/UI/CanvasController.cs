@@ -57,13 +57,21 @@ public class CanvasController : MonoBehaviour
     public GameObject StoreUI;
     public GameObject StoreUIButton;
 
+    [Space(10)]
+
+    [Header("Exit Game UI")]
+    public GameObject ExitGameUI;
+
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (ChestUI.gameObject.activeSelf) HideChestUI();
-            if (BedUI.gameObject.activeSelf) HideBedUI();
-            if (StoreUI.gameObject.activeSelf) HideStoreUI();
+            else if (BedUI.gameObject.activeSelf) HideBedUI();
+            else if (StoreUI.gameObject.activeSelf) HideStoreUI();
+            else if (ExitGameUI.gameObject.activeSelf) HideExitGameUI();
+            else ShowExitGameUI();
         }
 
         UpdateUICoins();
@@ -139,6 +147,7 @@ public class CanvasController : MonoBehaviour
 
         GameManager.Instance.RestoreEnergy();
         GameManager.Instance.GrowCrops();
+        GameManager.Instance.SaveGame();
         // sonido de gallo
     }
 
@@ -186,6 +195,38 @@ public class CanvasController : MonoBehaviour
     }
     #endregion
 
+    #region "Exit UI"
+    public void ShowExitGameUI()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+        StartCoroutine(FadeEffect(0.3f));
+        ExitGameUI.SetActive(true);
+    }
+
+    public void HideExitGameUI()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+        StartCoroutine(FadeEffect(0.3f));
+        ExitGameUI.SetActive(false);
+    }
+
+    public void SaveAndExitGame()
+    {
+        GameManager.Instance.SaveGame();
+        ExitGame();
+    }
+    public void ExitGame()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+        StartCoroutine(FadeEffect(0.3f));
+        ExitGameUI.SetActive(false);
+        SceneManager.LoadScene("Scene00");
+    }
+    #endregion
+
     IEnumerator FadeEffect(float time)
     {
         SleepFade.SetActive(true);
@@ -193,30 +234,6 @@ public class CanvasController : MonoBehaviour
         SleepFade.SetActive(false);
     }
 
-//------------------------------
 
-    #region "DATA SERVICE"
-
-    public void SaveGame()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.SaveGame();
-    }
-
-    public void NewGame()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.NewGame();
-    }
-
-    public void LoadGame()
-    {
-        if (GameManager.Instance != null)
-            GameManager.Instance.LoadGame();
-    }
-
-
-
-    #endregion
 
 }

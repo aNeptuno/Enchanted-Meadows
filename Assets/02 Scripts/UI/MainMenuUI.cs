@@ -9,42 +9,24 @@ using UnityEngine.SceneManagement;
 public class MainMenuUI : MonoBehaviour
 {
     [Header("Main Menu UI")]
-    public GameObject MainMenu;
 
     public GameObject SleepFade;
 
     public GameObject StartGameUI;
 
-    public GameObject StartGameUICoins;
-    public List<GameObject> StartGameUIEnergy;
-    public GameObject StartGameUIGameTime;
-    public GameObject StartGameUIGameTimeDay;
-
     public GameObject NewGameUI;
 
-
-
-    void InitializeData()
+    void OnEnable()
     {
-        if (DataManager.Instance != null)
+        if (StartGameUI.activeSelf) StartGameUI.SetActive(false);
+        if (NewGameUI.activeSelf) NewGameUI.SetActive(false);
+    }
+    void Update()
+    {
+        if ((StartGameUI.activeSelf || NewGameUI.activeSelf) && Input.GetKeyDown(KeyCode.Escape))
         {
-            GameStats stats = DataManager.Instance.DeserializeJson();
-            if (stats != null)
-            {
-                string text = "Loaded data: \r\n" + JsonConvert.SerializeObject(stats, Formatting.Indented);
-                Debug.Log(text);
-                // Coins
-                StartGameUICoins.GetComponent<TextMeshProUGUI>().text = stats.PlayerCoins.ToString();
-
-                // Energy
-                foreach(GameObject go in StartGameUIEnergy)
-                    go.SetActive(false);
-                StartGameUIEnergy[stats.PlayerEnergy].SetActive(true);
-
-                //Time
-                StartGameUIGameTime.GetComponent<TextMeshProUGUI>().text = TimeSystem.Instance.FormatTime();
-                StartGameUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = "Day " + TimeSystem.Instance.days.ToString();
-            }
+            if (StartGameUI.activeSelf) StartGameUI.SetActive(false);
+            else if (NewGameUI.activeSelf) NewGameUI.SetActive(false);
         }
     }
 
@@ -54,27 +36,16 @@ public class MainMenuUI : MonoBehaviour
         {
             if (DataManager.Instance.DeserializeJson() == null)
             {
-                StartGameUI.SetActive(false);
                 NewGame();
             }
             else
             {
                 if (AudioManager.Instance != null)
                     AudioManager.Instance.PlaySFX("Menu",false);
-                StartCoroutine(FadeEffect(1f));
+                StartCoroutine(FadeEffect(0.3f));
                 StartGameUI.SetActive(true);
-                InitializeData();
             }
         }
-    }
-
-    public void ContinueGame()
-    {
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlaySFX("Menu",false);
-        StartCoroutine(FadeEffect(1f));
-        MainMenu.SetActive(false);
-        SceneManager.LoadScene("Scene01");
     }
 
     public void NewGame()
@@ -82,26 +53,26 @@ public class MainMenuUI : MonoBehaviour
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX("Menu",false);
         StartCoroutine(FadeEffect(1f));
-        MainMenu.SetActive(false);
-        StartGameUI.SetActive(false);
         NewGameUI.SetActive(true);
     }
 
+    /// <summary>
+    /// Called from NewGame UI
+    /// </summary>
     public void SavePlayerNameAndInitialize(string pName)
     {
         if (DataManager.Instance != null)
         {
-            GameStats GameStats = new GameStats();
-            GameStats.SaveGameStats(pName, 4, 10, true);
-            DataManager.Instance.SerializeJson();
+            DataManager.Instance.NewGameStats(pName, 4, 10, true);
+            DataManager.Instance.SerializeJson(true,true,true);
         }
     }
 
-    public void StartNewGame()
+    public void StartPlaying()
     {
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX("Menu",false);
-        StartCoroutine(FadeEffect(1f));
+        StartCoroutine(FadeEffect(0.3f));
         SceneManager.LoadScene("Scene01");
     }
 

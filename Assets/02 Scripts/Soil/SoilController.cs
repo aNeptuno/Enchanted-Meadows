@@ -7,11 +7,47 @@ using UnityEngine;
 
 public class SoilController : MonoBehaviour
 {
+    #region "Dirt states management"
     public GameObject naturalTile;
     public GameObject tilledTile;
     public GameObject wateredTile;
     public GameObject seededTile;
 
+    public enum DirtStates {
+        NATURAL,
+		TILLED,
+		WATERED,
+		SEEDED,
+        PLANTED,
+    }
+
+    DirtStates currentDirtState;
+    DirtStates CurrentDirtState {
+        set {
+            currentDirtState = value;
+
+            switch(currentDirtState)
+            {
+                case DirtStates.NATURAL:
+                StartCoroutine(ActivateMap(true,false,false,false));
+                break;
+                case DirtStates.TILLED:
+                StartCoroutine(ActivateMap(false,true,false,false));
+                break;
+                case DirtStates.WATERED:
+                StartCoroutine(ActivateMap(false,false,true,false));
+                break;
+                case DirtStates.SEEDED:
+                StartCoroutine(ActivateMap(false,false,true,true));
+                break;
+                case DirtStates.PLANTED:
+                StartCoroutine(ActivateMap(false,false,true,false));
+                break;
+            }
+        }
+    }
+
+    #endregion
     public bool IsFacing;
 
     private bool playerInTrigger;
@@ -58,16 +94,16 @@ public class SoilController : MonoBehaviour
         {
             // Tille soil only if it doesnt have an active plant on it
             if (Input.GetKeyDown(KeyCode.R) && !wateredTile.activeInHierarchy && !seededTile.activeInHierarchy)
-                StartCoroutine(ActivateMap(false,true,false,false));
+                CurrentDirtState = DirtStates.TILLED;
 
             // Water soil
             if (Input.GetKeyDown(KeyCode.Q) && tilledTile.activeInHierarchy)
             {
                 if (!seededTile.activeInHierarchy)
-                    StartCoroutine(ActivateMap(false,false,true,false));
+                    CurrentDirtState = DirtStates.WATERED;
                 else
                 {
-                    StartCoroutine(ActivateMap(false,false,true,true));
+                    CurrentDirtState = DirtStates.SEEDED;
                     startGrowing = true;
                 }
             }
@@ -115,6 +151,7 @@ public class SoilController : MonoBehaviour
                 if (player.seedInHand.amountOfSeedsInStorage == 0)
                 {
                     player.RemoveSeedInHand();
+                    ChestController.Instance.CropsInChest.Remove(player.seedInHand);
                 }
                 if (wateredTile.activeInHierarchy)
                     startGrowing = true;
@@ -139,7 +176,7 @@ public class SoilController : MonoBehaviour
         yield return new WaitForSeconds(growTime);
 
         // Desactivate seeded tile
-        StartCoroutine(ActivateMap(false,false,true,false));
+        CurrentDirtState = DirtStates.PLANTED;
 
         float timeMult = 1f;
         for(int i = 0; i < statesSprites.Count; i++)
@@ -161,21 +198,7 @@ public class SoilController : MonoBehaviour
         readyToCollect = false;
 
         yield return new WaitForSeconds(waitTime);
-        StartCoroutine(ActivateMap(true,false,false,false));
+        CurrentDirtState = DirtStates.NATURAL;
     }
-
-    /* public void ForceGrowCrops()
-    {
-        isForcedToGrow = GameManager.Instance.forceGrowAllCrops;
-        if (startedGrowing == true)
-            ResetSoil(0.1f);
-        else startedGrowing = true;
-        seededTile.SetActive(false);
-        ResetSoil(0.1f);
-
-        if (currentCropState.GetComponent<SpriteRenderer>().sprite != null)
-            currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.cropSprite;
-        readyToCollect = true;
-    } */
 
 }
