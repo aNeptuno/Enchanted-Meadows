@@ -1,6 +1,7 @@
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class SoilManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class SoilManager : MonoBehaviour
 
     public Transform playerTransform;
 
-    public List<SoilController> soilControllers;
+    public SoilController[,] soilControllers = new SoilController[6, 6];
 
     #region "Singleton"
     public static SoilManager Instance { get; private set; } // Singleton instance
@@ -19,7 +20,7 @@ public class SoilManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this; // If not, set it to this instance
-            DontDestroyOnLoad(gameObject); // Make this instance persist across scenes
+            //DontDestroyOnLoad(gameObject); // Make this instance persist across scenes
         }
         else if (Instance != this)
         {
@@ -48,24 +49,33 @@ public class SoilManager : MonoBehaviour
             for (int j = 0; j < columns; j++)
             {
                 Vector3 position = transform.position + new Vector3(3f + spacingX, 0.7f - spacingY, 0);
-                //Vector3 position = new Vector3(-0.5f + spacingX, 1 - spacingY, 0);
                 GameObject instance = Instantiate(prefab, position, Quaternion.identity);
                 spacingX += 0.5f;
+
+                // Add to matrix
+                SoilController soilController = instance.GetComponent<SoilController>();
+                soilController.iMatrix = i;
+                soilController.jMatrix = j;
+                soilControllers[i, j] = soilController;
             }
             spacingY += 0.5f;
         }
-
-        // Obtener todos los SoilControllers en la escena
-        SoilController[] allSoilControllers = FindObjectsOfType<SoilController>();
-        soilControllers = new List<SoilController>(allSoilControllers);
+        LoadSoilState();
     }
 
+    public void LoadSoilState()
+    {
+        MatrixSoilState LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        DataManager.Instance.LoadSoilMatrix(LoadedSoil);
+
+        string text = "Loaded soil: \r\n" + JsonConvert.SerializeObject(LoadedSoil, Formatting.Indented);
+        Debug.Log(text);
+    }
+
+    #region "Update / Get Facing Soil"
     void Update()
     {
-        if (playerTransform == null)
-            playerTransform = FindObjectOfType<PlayerController>().GetComponent<Transform>();
-
-        if (soilControllers != null)
+        if (soilControllers != null && playerTransform != null)
         {
             SoilController facingSoil = GetFacingSoil();
             if (facingSoil != null)
@@ -73,6 +83,21 @@ public class SoilManager : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerTransform = other.transform;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerTransform = null;
+        }
+    }
 
     SoilController GetFacingSoil()
     {
@@ -82,19 +107,28 @@ public class SoilManager : MonoBehaviour
         {
             playerDirection = playerTransform.right;
 
-            foreach (SoilController soilController in soilControllers)
+            for (int i = 0; i < soilControllers.GetLength(0); i++)
             {
-                Vector3 directionToSoil = soilController.transform.position - playerTransform.position;
-                float angle = Vector3.Angle(playerDirection, directionToSoil);
-
-                // Permitir un ángulo de visión de 45 grados (ajusta según sea necesario)
-                if (angle < 45f && soilController.PlayerInTrigger)
+                for (int j = 0; j < soilControllers.GetLength(1); j++)
                 {
-                    return soilController;
+                    SoilController soilController = soilControllers[i, j];
+                    if (soilController != null)
+                    {
+                        Vector3 directionToSoil = soilController.transform.position - playerTransform.position;
+                        float angle = Vector3.Angle(playerDirection, directionToSoil);
+
+                        // Permitir un ángulo de visión de 45 grados (ajusta según sea necesario)
+                        if (angle < 45f && soilController.PlayerInTrigger)
+                        {
+                            return soilController;
+                        }
+                    }
                 }
             }
         }
 
         return null;
     }
+    #endregion
+
 }

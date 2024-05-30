@@ -30,6 +30,12 @@ public class MainMenuUI : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMusic("Intro");
+    }
+
     public void StartGame() // Play
     {
         if (DataManager.Instance != null)
@@ -72,7 +78,10 @@ public class MainMenuUI : MonoBehaviour
     {
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlaySFX("Menu",false);
-        StartCoroutine(FadeEffect(0.3f));
+
+        /* if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayMusic("MainTheme"); */
+        StartCoroutine(FadeEffect(0.5f));
         SceneManager.LoadScene("Scene01");
     }
 

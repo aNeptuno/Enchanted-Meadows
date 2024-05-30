@@ -303,7 +303,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294781f045fabb144ba0aeab55adeb6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSounds: []
+  musicSounds:
+  - soundName: Intro
+    clip: {fileID: 8300000, guid: 9f0ab92fb2d96d644b0e72e39f5f775e, type: 3}
+  - soundName: Town
+    clip: {fileID: 8300000, guid: 34611d26db83ac24b8ef8fcd69789a07, type: 3}
+  - soundName: MainTheme
+    clip: {fileID: 8300000, guid: 06ed8edb429dda4478f8f0e5be69d41f, type: 3}
   sfxSounds:
   - soundName: DoorOpen
     clip: {fileID: 8300000, guid: 4c84eb9fe2eb81248ae38cb337452749, type: 3}

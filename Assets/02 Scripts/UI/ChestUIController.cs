@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class ChestUIController : MonoBehaviour
 {
-    [Header("Chest")]
-    public ChestController chest;
-
-
     [Header("Chest content")]
     [SerializeField] private List<GameObject> itemListContainers;
     [SerializeField] private List<ChestItemUIController> itemListControllers;
@@ -19,12 +15,12 @@ public class ChestUIController : MonoBehaviour
 
     public void ShowCropsInChestInUI()
     {
-        for(int i = 0; i < chest.CropsInChest.Count; i++)
+        for(int i = 0; i < ChestController.Instance.CropsInChest.Count; i++)
         {
             itemListContainers[i].SetActive(true);
             ChestItemUIController itemListController = itemListContainers[i].GetComponent<ChestItemUIController>();
             itemListControllers.Add(itemListController);
-            itemListController.thisCrop = chest.CropsInChest[i];
+            itemListController.thisCrop = ChestController.Instance.CropsInChest[i];
 
         }
     }

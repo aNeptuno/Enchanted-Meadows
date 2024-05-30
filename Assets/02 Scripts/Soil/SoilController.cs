@@ -5,47 +5,57 @@ using System.Transactions;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class SoilController : MonoBehaviour
-{
-    #region "Dirt states management"
-    public GameObject naturalTile;
-    public GameObject tilledTile;
-    public GameObject wateredTile;
-    public GameObject seededTile;
-
-    public enum DirtStates {
+public enum DirtStates {
         NATURAL,
 		TILLED,
 		WATERED,
 		SEEDED,
         PLANTED,
-    }
+}
+public class SoilController : MonoBehaviour
+{
+    [Header("Reference to its soil matrix")]
+    public int iMatrix;
+    public int jMatrix;
+
+    #region "Dirt states management"
+
+    [Space(5)]
+    [Header("Dirt states management")]
+    public GameObject naturalTile;
+    public GameObject tilledTile;
+    public GameObject wateredTile;
+    public GameObject seededTile;
 
     DirtStates currentDirtState;
-    DirtStates CurrentDirtState {
-        set {
+    public DirtStates CurrentDirtState
+    {
+        set
+        {
             currentDirtState = value;
 
-            switch(currentDirtState)
+            switch (currentDirtState)
             {
                 case DirtStates.NATURAL:
-                StartCoroutine(ActivateMap(true,false,false,false));
-                break;
+                    StartCoroutine(ActivateMap(true, false, false, false));
+                    break;
                 case DirtStates.TILLED:
-                StartCoroutine(ActivateMap(false,true,false,false));
-                break;
+                    StartCoroutine(ActivateMap(false, true, false, false));
+                    break;
                 case DirtStates.WATERED:
-                StartCoroutine(ActivateMap(false,false,true,false));
-                break;
+                    StartCoroutine(ActivateMap(false, false, true, false));
+                    break;
                 case DirtStates.SEEDED:
-                StartCoroutine(ActivateMap(false,false,true,true));
-                break;
+                    StartCoroutine(ActivateMap(false, false, true, true));
+                    break;
                 case DirtStates.PLANTED:
-                StartCoroutine(ActivateMap(false,false,true,false));
-                break;
+                    StartCoroutine(ActivateMap(false, false, true, false));
+                    break;
             }
         }
+        get => currentDirtState;
     }
+
 
     #endregion
     public bool IsFacing;
@@ -56,7 +66,7 @@ public class SoilController : MonoBehaviour
 
     [SerializeField] private PlayerController player;
 
-    [SerializeField] private Crop currentCrop;
+    [SerializeField] public Crop currentCrop;
 
     [SerializeField] private GameObject currentCropState;
 
@@ -67,6 +77,12 @@ public class SoilController : MonoBehaviour
     private bool readyToCollect = false;
 
     private float growTime;
+
+    public bool StartGrowing  {get => startGrowing; set => startGrowing = value;}
+    public bool StartedGrowing {get => startedGrowing; set => startedGrowing = value;}
+    public bool ReadyToCollect {get => readyToCollect; set => readyToCollect = value;}
+
+    public int SpriteIndex = 0;
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -116,6 +132,9 @@ public class SoilController : MonoBehaviour
         if (startGrowing && !startedGrowing)
             GrowSeed();
 
+        if (startedGrowing)
+            StartCoroutine(GrowingCrop());
+
         if (playerInTrigger && IsFacing && readyToCollect && Input.GetKeyDown(KeyCode.E) && GameManager.Instance.playerEnergy > 0)
         {
             player.CollectCrop(currentCrop);
@@ -127,7 +146,7 @@ public class SoilController : MonoBehaviour
 
     private IEnumerator ActivateMap(bool natural, bool tilled, bool watered, bool seeded)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         naturalTile.SetActive(natural);
         tilledTile.SetActive(tilled);
         wateredTile.SetActive(watered);
@@ -168,23 +187,31 @@ public class SoilController : MonoBehaviour
         }
     }
 
+    float timeMult = 1f;
     IEnumerator GrowingCrop()
     {
         List<Sprite> statesSprites = currentCrop.growStatesSprites;
-        //float growTime = currentCrop.growTime;
 
         yield return new WaitForSeconds(growTime);
 
         // Desactivate seeded tile
         CurrentDirtState = DirtStates.PLANTED;
 
-        float timeMult = 1f;
-        for(int i = 0; i < statesSprites.Count; i++)
+        for (int i = SpriteIndex; i < statesSprites.Count; i++)
         {
             currentCropState.GetComponent<SpriteRenderer>().sprite = statesSprites[i];
             yield return new WaitForSeconds(growTime * timeMult);
             timeMult = timeMult + 1f;
+
+            SpriteIndex++;
         }
+        if (SpriteIndex == statesSprites.Count)
+            CollectCrop();
+        else if (GameManager.Instance.forceGrowCrops) CollectCrop();
+    }
+
+    void CollectCrop()
+    {
         currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.cropSprite;
         readyToCollect = true;
     }
@@ -196,6 +223,7 @@ public class SoilController : MonoBehaviour
         currentCropState.GetComponent<SpriteRenderer>().sprite = null;
         startedGrowing = false;
         readyToCollect = false;
+        SpriteIndex = 0;
 
         yield return new WaitForSeconds(waitTime);
         CurrentDirtState = DirtStates.NATURAL;

@@ -28,6 +28,10 @@ public class AudioManager : MonoBehaviour
 
     public PlayerController player;
 
+    public float fadeDuration = 1f; // Melt sounds duration
+
+    private Coroutine currentFadeCoroutine;
+
     void Update()
     {
         if (player != null)
@@ -79,8 +83,41 @@ public class AudioManager : MonoBehaviour
         {
             musicSource.clip = s.clip;
             musicSource.Play();
+            /* if (currentFadeCoroutine != null)
+            {
+                StopCoroutine(currentFadeCoroutine);
+            }
+
+            currentFadeCoroutine = StartCoroutine(FadeMusic(s.clip)); */
         }
     }
+
+    private IEnumerator FadeMusic(AudioClip newClip)
+    {
+        // Fade out the current music
+        float startVolume = musicSource.volume;
+        while (musicSource.volume > 0)
+        {
+            musicSource.volume -= startVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        // Stop the current music and switch to the new clip
+        musicSource.Stop();
+        musicSource.clip = newClip;
+        musicSource.Play();
+
+        // Fade in the new music
+        while (musicSource.volume < startVolume)
+        {
+            musicSource.volume += startVolume * Time.deltaTime / fadeDuration;
+            yield return null;
+        }
+
+        musicSource.volume = startVolume;
+        currentFadeCoroutine = null;
+    }
+
 
     public void PlaySFX(string name, bool player)
     {

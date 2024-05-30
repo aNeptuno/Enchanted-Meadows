@@ -435,6 +435,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787394616927516289, guid: 7b216592f37eddd4f943e1ac95e117eb, type: 3}
+      propertyPath: musicSounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9f0ab92fb2d96d644b0e72e39f5f775e, type: 3}
     - target: {fileID: 2796561456299806122, guid: 7b216592f37eddd4f943e1ac95e117eb, type: 3}
       propertyPath: m_Name
       value: AudioManager

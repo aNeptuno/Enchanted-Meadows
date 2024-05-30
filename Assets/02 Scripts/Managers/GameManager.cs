@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest);
 
         // Save soil state
+        DataManager.Instance.SaveSoilMatrixState();
 
         // Save all to file
         DataManager.Instance.SerializeJson(true,true,true);
@@ -77,6 +78,12 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.ParseAndAddToChest(LoadedChest.cropsInChest);
     }
 
+    public void LoadSoilState()
+    {
+        MatrixSoilState LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        DataManager.Instance.LoadSoilMatrix(LoadedSoil);
+    }
+
     #endregion
 
     #region  "Game Start Initialization"
@@ -84,21 +91,12 @@ public class GameManager : MonoBehaviour
     {
         LoadGame();
         LoadChestState();
-
-
-        /* if (newGame)
-        { */
-            GameInitialization();
-            SaveGame();
-        /* } */
-    }
-
-    public void GameInitialization()
-    {
+        // Generates Soil Controllers and loads soil state
         SoilManager.Instance.GenerateSoil();
 
-        newGame = false;
+        if (newGame == true) newGame = false;
     }
+
     #endregion
 
     #region  "Coins"

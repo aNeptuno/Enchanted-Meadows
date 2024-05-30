@@ -127,8 +127,7 @@ MonoBehaviour:
   chestOpen: {fileID: 8024972499167506150}
   chestClose: {fileID: 8768712126605964964}
   player: {fileID: 0}
-  cropsInChest:
-  - {fileID: 11400000, guid: 09ceef7a477a80b4baaadcb2352ba4cc, type: 2}
+  cropsInChest: []
 --- !u!61 &396153584462661291
 BoxCollider2D:
   m_ObjectHideFlags: 0

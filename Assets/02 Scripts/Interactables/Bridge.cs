@@ -58,11 +58,17 @@ public class Bridge : MonoBehaviour
         {
             MyDebugLog.Instance.MyDebugFunc("Travel to town");
             LoadTheScene("Scene02");
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMusic("Town");
         }
         else
         {
             MyDebugLog.Instance.MyDebugFunc("Return home");
             LoadTheScene("Scene01");
+
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.PlayMusic("MainTheme");
         }
     }
 

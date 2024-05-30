@@ -122,6 +122,7 @@ public class CanvasController : MonoBehaviour
         GameStatsUIGameTime.GetComponent<TextMeshProUGUI>().text = TimeSystem.Instance.FormatTime();
         GameStatsUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = "Day " + TimeSystem.Instance.days.ToString();
     }
+
     #endregion
 
     #region "Bed UI"
@@ -143,8 +144,8 @@ public class CanvasController : MonoBehaviour
         if (BedUI.activeSelf)
             BedUI.SetActive(false);
 
-        FadeEffect(3f);
-
+        StartCoroutine(FadeEffect(2f));
+        TimeSystem.Instance.AddDay();
         GameManager.Instance.RestoreEnergy();
         GameManager.Instance.GrowCrops();
         GameManager.Instance.SaveGame();

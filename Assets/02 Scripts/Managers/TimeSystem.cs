@@ -79,7 +79,7 @@ public class TimeSystem : MonoBehaviour
         }
     }
 
-    private void AddDay()
+    public void AddDay()
     {
         days++;
         OnDayChanged?.Invoke();

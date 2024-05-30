@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
@@ -26,7 +27,8 @@ public class DataManager : MonoBehaviour
     #region "DATA SERVICE"
     private GameStats GameStats = new GameStats();
     private ChestState ChestState = new ChestState();
-    private SoilState SoilState = new SoilState();
+    //private SoilState SoilState = new SoilState();
+    private MatrixSoilState MatrixSoilState = new MatrixSoilState();
     private IDataService DataService = new JsonDataService();
     private bool EncryptionEnabled;
     private long SaveTime;
@@ -44,7 +46,7 @@ public class DataManager : MonoBehaviour
         SerializeJson(true,true,true);
     }
 
-    #region "Game Stats"
+        #region "Game Stats"
     public void NewGameStats(string pName, int pEnergy, int pCoins, bool newGame)
     {
         GameStats.PlayerName = pName;
@@ -61,7 +63,7 @@ public class DataManager : MonoBehaviour
     }
     #endregion
 
-    #region "Chest state"
+        #region "Chest state"
     public void SaveChestState(List<Crop> cropsInChest)
     {
         if (cropsInChest != null)
@@ -100,6 +102,66 @@ public class DataManager : MonoBehaviour
 
     #endregion
 
+        #region "Soil state"
+
+        public void LoadSoilMatrix(MatrixSoilState loadedSoil)
+        {
+            if (SoilManager.Instance != null)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        ParseToSoilController(SoilManager.Instance.soilControllers[i,j] , loadedSoil.SoilStateMatrix[i,j]);
+                    }
+                }
+            }
+        }
+
+        public void ParseToSoilController(SoilController soilController, SoilState soilState)
+        {
+            soilController.CurrentDirtState = soilState.CurrentDirtState;
+
+            CropInSoil cropInSoil = soilState.CurrentCrop;
+            if (cropInSoil.Name != "")
+            {
+                soilController.currentCrop = FindCropByName(cropInSoil.Name);
+            }
+            soilController.StartGrowing = cropInSoil.StartGrowing;
+            soilController.StartedGrowing = cropInSoil.StartedGrowing;
+            soilController.SpriteIndex = cropInSoil.SpriteIndex;
+            soilController.ReadyToCollect = cropInSoil.ReadyToCollect;
+        }
+
+        public void SaveSoilMatrixState()
+        {
+            if (SoilManager.Instance != null)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        MatrixSoilState.AddMemberToMatrix(i,j, ParseToSoilState(SoilManager.Instance.soilControllers[i,j]));
+                    }
+                }
+            }
+        }
+
+        public SoilState ParseToSoilState(SoilController soilCon)
+        {
+            string cropName ="";
+            if (soilCon.currentCrop != null)
+                cropName = soilCon.currentCrop.cropName;
+
+            CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect);
+
+            return new SoilState(soilCon.CurrentDirtState, currentCrop);
+        }
+
+
+        #endregion
+
+        #region "Serialize / Deserialize"
     /// <summary>
     /// Save data
     /// </summary>
@@ -137,7 +199,7 @@ public class DataManager : MonoBehaviour
         if (soilState)
         {
             long startTime = DateTime.Now.Ticks;
-            if (DataService.SaveData("/soil-state.json", SoilState, EncryptionEnabled))
+            if (DataService.SaveData("/soil-state.json", MatrixSoilState, EncryptionEnabled))
             {
                 SaveTime = DateTime.Now.Ticks - startTime;
                 Debug.Log("SaveTime: " +SaveTime / 1000f +" ms");
@@ -161,7 +223,7 @@ public class DataManager : MonoBehaviour
         {
             GameStats loadedStats = DataService.LoadData<GameStats>("/game-stats.json", EncryptionEnabled);
             LoadTime = DateTime.Now.Ticks - startTime;
-            Debug.Log("LoadTime (game data): " +LoadTime / 1000f +" ms");
+            //Debug.Log("LoadTime (game data): " +LoadTime / 1000f +" ms");
 
             return(loadedStats);
 
@@ -184,7 +246,7 @@ public class DataManager : MonoBehaviour
         {
             ChestState loadedStats = DataService.LoadData<ChestState>("/chest-state.json", EncryptionEnabled);
             LoadTime = DateTime.Now.Ticks - startTime;
-            Debug.Log("LoadTime (chest): " +LoadTime / 1000f +" ms");
+            //Debug.Log("LoadTime (chest): " +LoadTime / 1000f +" ms");
 
             return(loadedStats);
 
@@ -200,14 +262,14 @@ public class DataManager : MonoBehaviour
     /// Load SoilState
     /// </summary>
     /// <returns></returns>
-    public SoilState DeserializeJsonSoil()
+    public MatrixSoilState DeserializeJsonSoil()
     {
         long startTime = DateTime.Now.Ticks;
         try
         {
-            SoilState loadedStats = DataService.LoadData<SoilState>("/soil-state.json", EncryptionEnabled);
+            MatrixSoilState loadedStats = DataService.LoadData<MatrixSoilState>("/soil-state.json", EncryptionEnabled);
             LoadTime = DateTime.Now.Ticks - startTime;
-            Debug.Log("LoadTime (soil): " +LoadTime / 1000f +" ms");
+            //Debug.Log("LoadTime (soil): " +LoadTime / 1000f +" ms");
 
             return(loadedStats);
 
@@ -218,6 +280,8 @@ public class DataManager : MonoBehaviour
             return null;
         };
     }
+    #endregion
+
     #endregion
 
     // TIME FORMATTING
