@@ -115,5 +115,14 @@ public class ChestController : MonoBehaviour
         }
     }
 
+    public void RemoveCropFromChest(Crop cropToRemove)
+    {
+        if (cropsInChest.Contains(cropToRemove))
+        {
+            cropsInChest.Remove(cropToRemove);
+            Debug.Log("Crop deleted from chest.");
+        }
+    }
+
 
 }

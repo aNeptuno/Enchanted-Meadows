@@ -8,20 +8,29 @@ public class ChestUIController : MonoBehaviour
     [SerializeField] private List<GameObject> itemListContainers;
     [SerializeField] private List<ChestItemUIController> itemListControllers;
 
-    void Start()
-    {
-        ShowCropsInChestInUI();
-    }
-
     public void ShowCropsInChestInUI()
     {
         for(int i = 0; i < ChestController.Instance.CropsInChest.Count; i++)
         {
-            itemListContainers[i].SetActive(true);
-            ChestItemUIController itemListController = itemListContainers[i].GetComponent<ChestItemUIController>();
-            itemListControllers.Add(itemListController);
-            itemListController.thisCrop = ChestController.Instance.CropsInChest[i];
+            if (ChestController.Instance.CropsInChest[i].amountOfSeedsInStorage > 0)
+            {
+                itemListContainers[i].SetActive(true);
+                ChestItemUIController itemListController = itemListContainers[i].GetComponent<ChestItemUIController>();
+                itemListControllers.Add(itemListController);
+                itemListController.thisCrop = ChestController.Instance.CropsInChest[i];
+            }
 
+        }
+    }
+
+    public void RestoreUI()
+    {
+        for(int i = 0; i < itemListContainers.Count; i++)
+        {
+            ChestItemUIController itemListController = itemListContainers[i].GetComponent<ChestItemUIController>();
+            itemListController.thisCrop = null;
+            itemListControllers.Remove(itemListController);
+            itemListContainers[i].SetActive(false);
         }
     }
 }

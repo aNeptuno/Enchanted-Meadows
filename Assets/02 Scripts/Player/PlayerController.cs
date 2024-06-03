@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
     private bool isWatering;
     private bool isTiling;
 
+    public bool IsInBed = false;
+
     #endregion
 
     // -- Seed in hand
@@ -70,23 +72,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        moveInput = playerInput.actions["Walk"].ReadValue<Vector2>();
-        if (moveInput != Vector2.zero)
+        if (!IsInBed)
         {
-            CurrentState = PlayerStates.WALK;
-            //Debug.Log("<color=yellow> Move input: "+moveInput+"</color>");
-            animator.SetFloat("xMove",moveInput.x);
-            animator.SetFloat("yMove",moveInput.y);
-        }
-        else if (!isWatering && !isTiling)
-        {
-            CurrentState = PlayerStates.IDLE;
-        }
+            moveInput = playerInput.actions["Walk"].ReadValue<Vector2>();
+            if (moveInput != Vector2.zero)
+            {
+                CurrentState = PlayerStates.WALK;
+                //Debug.Log("<color=yellow> Move input: "+moveInput+"</color>");
+                animator.SetFloat("xMove",moveInput.x);
+                animator.SetFloat("yMove",moveInput.y);
+            }
+            else if (!isWatering && !isTiling)
+            {
+                CurrentState = PlayerStates.IDLE;
+            }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && seedInHand && !CanvasController.Instance.ChestUI.activeSelf)
-        {
-            seedInHand = null;
-            grabbedSeedContainer.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.Escape) && seedInHand && !CanvasController.Instance.ChestUI.activeSelf)
+            {
+                seedInHand = null;
+                grabbedSeedContainer.SetActive(false);
+            }
         }
     }
 
@@ -157,14 +162,4 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
-    public void CollectCrop(Crop cropToGrab)
-    {
-        // Coin animation
-
-        // Sound
-        AudioManager.Instance.PlaySFX("Collect",false);
-        // UI
-        GameManager.Instance.AddCoins(cropToGrab.earnCoins);
-        GameManager.Instance.DecreaseEnergy(cropToGrab.energyCost);
-    }
 }

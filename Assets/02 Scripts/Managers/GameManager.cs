@@ -89,9 +89,19 @@ public class GameManager : MonoBehaviour
     #region  "Game Start Initialization"
     void Start()
     {
+        GameInitialization();
+    }
+
+    public void GameInitialization()
+    {
+        MyDebugLog.Instance.MyDebugFunc("Game initialization",null,"cyan");
         LoadGame();
         LoadChestState();
-        // Generates Soil Controllers and loads soil state
+
+        // Remove previous soil controllers
+        SoilManager.Instance.RemoveAllSoilControllers();
+
+        // Generates new soil controllers and loads soil state
         SoilManager.Instance.GenerateSoil();
 
         if (newGame == true) newGame = false;
@@ -135,7 +145,8 @@ public class GameManager : MonoBehaviour
 
     public void GrowCrops()
     {
-        forceGrowCrops = true;
+        //forceGrowCrops = true;
+        SoilManager.Instance.ForceGrowCropOnEachSoil();
     }
     #endregion
 

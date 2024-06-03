@@ -5,16 +5,17 @@ public class TimeSystem : MonoBehaviour
 {
     public static TimeSystem Instance;
 
-    public int hours;
+    public int hours = 8;
     public int minutes;
     public int days = 1;
 
-    public float realTimeToGameMinute = 0.1f; // 1/2 segundo de tiempo real equivale a 1 minuto en el juego
+    public float realTimeToGameMinute = 0.5f; // 1/2 segundo de tiempo real equivale a 1 minuto en el juego
     private float timer;
 
     public event Action OnMinuteChanged;
     public event Action OnHourChanged;
     public event Action OnDayChanged;
+
 
     private void Awake()
     {
@@ -41,6 +42,12 @@ public class TimeSystem : MonoBehaviour
                 minutes = loadGame.Minutes;
                 days = loadGame.Days;
             }
+            else
+            {
+                // First time start
+                hours = 8;
+                minutes = 0;
+            }
         }
     }
 
@@ -58,6 +65,9 @@ public class TimeSystem : MonoBehaviour
     private void AddMinute()
     {
         minutes++;
+        //Testing
+        //minutes += 30;
+
         OnMinuteChanged?.Invoke();
 
         if (minutes >= 60)

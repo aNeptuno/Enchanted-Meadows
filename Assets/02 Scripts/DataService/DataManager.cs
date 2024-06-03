@@ -68,6 +68,9 @@ public class DataManager : MonoBehaviour
     {
         if (cropsInChest != null)
         {
+            // Empty list
+            ChestState.EmptyList();
+
             foreach(Crop crop in cropsInChest)
             {
                 CropModel cropModel = new CropModel(crop.cropName, crop.amountOfSeedsInStorage);
@@ -131,6 +134,9 @@ public class DataManager : MonoBehaviour
             soilController.StartedGrowing = cropInSoil.StartedGrowing;
             soilController.SpriteIndex = cropInSoil.SpriteIndex;
             soilController.ReadyToCollect = cropInSoil.ReadyToCollect;
+
+            soilController.isForcedToGrow = cropInSoil.IsForcedToGrow;
+            soilController.finishedForcedGrow = cropInSoil.FinishedForcedGrow;
         }
 
         public void SaveSoilMatrixState()
@@ -153,7 +159,7 @@ public class DataManager : MonoBehaviour
             if (soilCon.currentCrop != null)
                 cropName = soilCon.currentCrop.cropName;
 
-            CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect);
+            CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect, soilCon.isForcedToGrow, soilCon.finishedForcedGrow);
 
             return new SoilState(soilCon.CurrentDirtState, currentCrop);
         }

@@ -56,7 +56,6 @@ public class Bridge : MonoBehaviour
     {
         if (fromHouse)
         {
-            MyDebugLog.Instance.MyDebugFunc("Travel to town");
             LoadTheScene("Scene02");
 
             if (AudioManager.Instance != null)
@@ -64,7 +63,6 @@ public class Bridge : MonoBehaviour
         }
         else
         {
-            MyDebugLog.Instance.MyDebugFunc("Return home");
             LoadTheScene("Scene01");
 
             if (AudioManager.Instance != null)
@@ -74,6 +72,7 @@ public class Bridge : MonoBehaviour
 
     void LoadTheScene(string sceneName)
     {
+        GameManager.Instance.SaveGame();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         CanvasController.Instance.HideBridgeUI(!fromHouse);
     }

@@ -46,7 +46,7 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
             posibleCropBags[thisCrop.name].SetActive(true);
     }
 
-    // -- Give Seed To Player
+    // -- Give Seed To Player || Buy
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!isStore)
@@ -64,17 +64,25 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
         {
             if (GameManager.Instance.playerCoins >= thisCrop.seedCost)
             {
-                // Buy crop
-                thisCrop.amountOfSeedsInStorage++;
-                GameManager.Instance.RemoveCoins(thisCrop.seedCost);
-                AudioManager.Instance.PlaySFX("BuySell", false);
-                descriptionUI.ShowDescription();
+                BuyCrop();
             }
             else
             {
                 AudioManager.Instance.PlaySFX("No", false);
             }
         }
+    }
+
+    void BuyCrop()
+    {
+        // Buy crop
+        thisCrop.amountOfSeedsInStorage++;
+        GameManager.Instance.RemoveCoins(thisCrop.seedCost);
+        AudioManager.Instance.PlaySFX("BuySell", false);
+        descriptionUI.ShowDescription();
+
+        // Save chest state
+        DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest);
     }
 
 }

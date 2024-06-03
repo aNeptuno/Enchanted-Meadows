@@ -9,4 +9,9 @@ public class ChestState
 		new CropModel("Potato", 4),
 		new CropModel("Carrot", 4)
     };
+
+	public void EmptyList()
+	{
+		cropsInChest = new List<CropModel>();
+	}
 }

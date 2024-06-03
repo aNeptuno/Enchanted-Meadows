@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Door
   - Dirt
+  - Bed
   layers:
   - Default
   - TransparentFX

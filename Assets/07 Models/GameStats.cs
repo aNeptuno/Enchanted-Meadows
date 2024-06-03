@@ -9,7 +9,7 @@ public class GameStats
     public bool NewGame = true;
 
     // -- GAME TIME
-    public int Hours = 0;
+    public int Hours = 8;
     public int Minutes = 0;
     public int Days = 1;
 

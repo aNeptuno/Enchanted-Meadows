@@ -34,6 +34,14 @@ public class SoilManager : MonoBehaviour
         playerTransform = FindObjectOfType<PlayerController>().GetComponent<Transform>();
     }
 
+    public void RemoveAllSoilControllers()
+    {
+        SoilController[] soilControllers = FindObjectsOfType<SoilController>();
+        foreach (SoilController soilController in soilControllers)
+        {
+            Destroy(soilController.gameObject);
+        }
+    }
     public void GenerateSoil()
     {
         playerTransform = FindObjectOfType<PlayerController>().GetComponent<Transform>();
@@ -131,4 +139,24 @@ public class SoilManager : MonoBehaviour
     }
     #endregion
 
+
+    // Force grow crop
+    public void ForceGrowCropOnEachSoil()
+    {
+        int rows = 6;
+        int columns = 6;
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (soilControllers[i, j] == null) Debug.Log("<color=red>soil controller is null</color>");
+                if (soilControllers[i, j].currentCrop != null)
+                {
+                    soilControllers[i, j].ForceToGrow();
+                    Debug.Log($"<color=red>Force to grow i {i} j: {j}</color>");
+                }
+            }
+        }
+    }
 }

@@ -62,6 +62,12 @@ public class CanvasController : MonoBehaviour
     [Header("Exit Game UI")]
     public GameObject ExitGameUI;
 
+    [Space(20)]
+
+    [Header("--- TESTING ---")]
+    public GameObject errorPanel;
+    public GameObject errorPanelMsg;
+
 
     void Update()
     {
@@ -84,6 +90,9 @@ public class CanvasController : MonoBehaviour
     {
         ChestUI.SetActive(true);
         ChestUIButton.SetActive(true);
+        ChestUI.GetComponent<ChestUIController>().RestoreUI();
+        chestDescription.ResetDescription();
+        ChestUI.GetComponent<ChestUIController>().ShowCropsInChestInUI();
     }
 
     public void HideChestUI()
@@ -144,12 +153,9 @@ public class CanvasController : MonoBehaviour
         if (BedUI.activeSelf)
             BedUI.SetActive(false);
 
-        StartCoroutine(FadeEffect(2f));
-        TimeSystem.Instance.AddDay();
-        GameManager.Instance.RestoreEnergy();
-        GameManager.Instance.GrowCrops();
-        GameManager.Instance.SaveGame();
-        // sonido de gallo
+        StartCoroutine(FadeEffect(3f));
+
+        BedController.Instance.Sleep();
     }
 
     #endregion
@@ -215,7 +221,9 @@ public class CanvasController : MonoBehaviour
 
     public void SaveAndExitGame()
     {
-        GameManager.Instance.SaveGame();
+        if (GameManager.Instance != null)
+            GameManager.Instance.SaveGame();
+        else ShowErrorInUI("GM is null");
         ExitGame();
     }
     public void ExitGame()
@@ -228,6 +236,20 @@ public class CanvasController : MonoBehaviour
     }
     #endregion
 
+    /* public void MakeBedFade(float time, PlayerController player)
+    {
+        StartCoroutine(FadeEffect(time, player));
+    }
+
+    IEnumerator FadeEffect(float time, PlayerController player)
+    {
+        player.IsSleeping = true;
+        SleepFade.SetActive(true);
+        yield return new WaitForSeconds(time);
+        SleepFade.SetActive(false);
+        player.IsSleeping = false;
+    }
+ */
     IEnumerator FadeEffect(float time)
     {
         SleepFade.SetActive(true);
@@ -235,6 +257,15 @@ public class CanvasController : MonoBehaviour
         SleepFade.SetActive(false);
     }
 
+    // --- Testing
+    public void ShowErrorInUI(string errorLog)
+    {
+        #if !UNITY_EDITOR
 
+        errorPanel.SetActive(true);
+        errorPanelMsg.GetComponent<TextMeshProUGUI>().text = errorLog;
+
+        #endif
+    }
 
 }

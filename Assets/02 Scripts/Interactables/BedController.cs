@@ -24,6 +24,8 @@ public class BedController : MonoBehaviour
 
     private bool playerInTrigger;
 
+    private PlayerController player;
+
     void Update()
     {
         if (playerInTrigger)
@@ -37,6 +39,8 @@ public class BedController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInTrigger = true;
+            player = other.GetComponent<PlayerController>();
+
         }
     }
 
@@ -46,6 +50,30 @@ public class BedController : MonoBehaviour
         {
             CanvasController.Instance.HideBedUI();
             playerInTrigger = false;
+            player = null;
         }
     }
+
+    public void Sleep()
+    {
+        if (player != null)
+        {
+            player.RemoveSeedInHand();
+            player.IsInBed = true;
+        }
+        TimeSystem.Instance.AddDay();
+        GameManager.Instance.GrowCrops();
+        GameManager.Instance.RestoreEnergy();
+        StartCoroutine(SaveAndInit());
+    }
+
+    IEnumerator SaveAndInit()
+    {
+        GameManager.Instance.SaveGame();
+        yield return new WaitForSeconds(3f);
+        GameManager.Instance.GameInitialization();
+        // sonido de gallo
+        player.IsInBed = false;
+    }
+
 }

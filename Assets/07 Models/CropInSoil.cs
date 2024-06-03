@@ -11,13 +11,19 @@ public class CropInSoil
 
 	public bool ReadyToCollect = false;
 
-	public CropInSoil(string name, bool startGrowing, bool startedGrowing, int spriteIndex, bool readyToCollect)
+	public bool IsForcedToGrow = false;
+	public bool FinishedForcedGrow = false;
+
+	public CropInSoil(string name, bool startGrowing, bool startedGrowing, int spriteIndex, bool readyToCollect, bool isForced, bool finishedForced)
     {
         Name = name;
         StartGrowing = startGrowing;
 		StartedGrowing = startedGrowing;
 		SpriteIndex = spriteIndex;
 		ReadyToCollect = readyToCollect;
+
+		IsForcedToGrow = isForced;
+		FinishedForcedGrow = finishedForced;
     }
 
 	public CropInSoil()

@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f691b0a3ef8fe2e44b1be0519e01603d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iMatrix: 0
+  jMatrix: 0
   naturalTile: {fileID: 4457612799117667801}
   tilledTile: {fileID: 5869271984223850975}
   wateredTile: {fileID: 2631140011593787986}
@@ -59,6 +61,9 @@ MonoBehaviour:
   player: {fileID: 0}
   currentCrop: {fileID: 0}
   currentCropState: {fileID: 8537486368682962430}
+  SpriteIndex: 0
+  isForcedToGrow: 0
+  finishedForcedGrow: 0
 --- !u!61 &5678692187683343146
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -188,7 +193,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 9
+  m_SortingOrder: 3
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -419,7 +424,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -439,7 +444,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -502,8 +507,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2825090006864239663, guid: 60fcb940a7bd41b48b9014caac19732a, type: 3}
       propertyPath: m_SortingOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2825090006864239663, guid: 60fcb940a7bd41b48b9014caac19732a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 4869369105397988956, guid: 60fcb940a7bd41b48b9014caac19732a, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -847,7 +856,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -937,6 +946,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2825090006864239663, guid: 60fcb940a7bd41b48b9014caac19732a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 3626361599733399939, guid: 60fcb940a7bd41b48b9014caac19732a, type: 3}
       propertyPath: m_IsActive
       value: 1
