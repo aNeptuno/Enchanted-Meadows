@@ -22,15 +22,16 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    public Sound[] musicSounds, sfxSounds, sfxPlayerSounds;
+    [Header("Sounds")]
+    public Sound[] musicSounds, sfxSounds, sfxPlayerSounds, envSounds;
 
-    public AudioSource musicSource, sfxSource, sfxPlayerSource;
+    public AudioSource musicSource, sfxSource, sfxPlayerSource, environmentSource;
 
     public PlayerController player;
 
     public float fadeDuration = 1f; // Melt sounds duration
 
-    private Coroutine currentFadeCoroutine;
+    //private Coroutine currentFadeCoroutine;
 
     void Update()
     {
@@ -92,7 +93,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private IEnumerator FadeMusic(AudioClip newClip)
+    /* private IEnumerator FadeMusic(AudioClip newClip)
     {
         // Fade out the current music
         float startVolume = musicSource.volume;
@@ -116,9 +117,23 @@ public class AudioManager : MonoBehaviour
 
         musicSource.volume = startVolume;
         currentFadeCoroutine = null;
+    } */
+
+    public void PlayEnvironment(string name)
+    {
+        MyDebugLog.Instance.MyDebugFunc("play environment: ",name);
+
+        Sound s = Array.Find(envSounds, x => x.soundName == name);
+        if (s != null)
+        {
+            environmentSource.clip = s.clip;
+            if (environmentSource.isPlaying) environmentSource.Stop();
+            environmentSource.Play();
+        }
+        else MyDebugLog.Instance.MyDebugFunc("SFX not found in environment: ",name);
     }
 
-
+    public void StopEnvironment() => environmentSource.Stop();
     public void PlaySFX(string name, bool player)
     {
         //MyDebugLog.Instance.MyDebugFunc("SFX: ",name);

@@ -1,6 +1,5 @@
 
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -81,8 +80,11 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
         AudioManager.Instance.PlaySFX("BuySell", false);
         descriptionUI.ShowDescription();
 
-        // Save chest state
-        DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest);
+        // Add to chest
+        ChestController.Instance.CropsInChest.Add(thisCrop);
+
+        /* // Save chest state
+        DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest); */
     }
 
 }

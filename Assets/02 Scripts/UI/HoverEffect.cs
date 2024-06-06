@@ -23,6 +23,8 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         descriptionUI.selectedCrop = this.GetComponent<ChestItemUIController>().thisCrop;
 
+        //Debug.Log("crop: "+descriptionUI.selectedCrop);
+
         if (this.GetComponent<ChestItemUIController>().isStore)
         {
             if (descriptionUI.selectedCrop.seedCost > GameManager.Instance.playerCoins)

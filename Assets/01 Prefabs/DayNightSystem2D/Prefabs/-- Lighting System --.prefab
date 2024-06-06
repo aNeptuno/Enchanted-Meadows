@@ -45,6 +45,14 @@ PrefabInstance:
       propertyPath: globalLight
       value: 
       objectReference: {fileID: 453620880442956474}
+    - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+      propertyPath: mapLights.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1445072777746858487, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
+      propertyPath: animalsInScene.Array.size
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5090104135708015505, guid: fc7a5e24cc034b1429a00a62d0b04fec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.902653

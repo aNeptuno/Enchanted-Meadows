@@ -45,6 +45,7 @@ public class DataManager : MonoBehaviour
     {
         SerializeJson(true,true,true);
     }
+    public void NewSoil() => MatrixSoilState = new MatrixSoilState();
 
         #region "Game Stats"
     public void NewGameStats(string pName, int pEnergy, int pCoins, bool newGame)
@@ -53,7 +54,11 @@ public class DataManager : MonoBehaviour
         GameStats.PlayerEnergy = pEnergy;
         GameStats.PlayerCoins = pCoins;
         GameStats.NewGame = newGame;
+        GameStats.Hours = 8;
+        GameStats.Minutes = 0;
+        GameStats.Days = 1;
     }
+
 
     public void GameStatsSaveTime(int hours, int minutes, int days)
     {
@@ -156,12 +161,15 @@ public class DataManager : MonoBehaviour
         public SoilState ParseToSoilState(SoilController soilCon)
         {
             string cropName ="";
-            if (soilCon.currentCrop != null)
-                cropName = soilCon.currentCrop.cropName;
+            if (soilCon != null)
+            {
+                if (soilCon.currentCrop != null)
+                    cropName = soilCon.currentCrop.cropName;
 
-            CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect, soilCon.isForcedToGrow, soilCon.finishedForcedGrow);
+                CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect, soilCon.isForcedToGrow, soilCon.finishedForcedGrow);
 
-            return new SoilState(soilCon.CurrentDirtState, currentCrop);
+                return new SoilState(soilCon.CurrentDirtState, currentCrop);
+            } else return null;
         }
 
 

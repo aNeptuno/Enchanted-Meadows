@@ -3,8 +3,6 @@ using System;
 
 public class TimeSystem : MonoBehaviour
 {
-    public static TimeSystem Instance;
-
     public int hours = 8;
     public int minutes;
     public int days = 1;
@@ -16,7 +14,12 @@ public class TimeSystem : MonoBehaviour
     public event Action OnHourChanged;
     public event Action OnDayChanged;
 
+    private int totalMinutesInCicle;
 
+    public int TotalMinutesInCicle {set => totalMinutesInCicle = value;}
+
+    #region "Singleton"
+    public static TimeSystem Instance;
     private void Awake()
     {
         if (Instance == null)
@@ -30,6 +33,7 @@ public class TimeSystem : MonoBehaviour
         }
 
     }
+    #endregion
 
     void Start()
     {
@@ -48,6 +52,8 @@ public class TimeSystem : MonoBehaviour
                 hours = 8;
                 minutes = 0;
             }
+
+            totalMinutesInCicle = GetTotalMinutes();
         }
     }
 
@@ -59,14 +65,13 @@ public class TimeSystem : MonoBehaviour
         {
             timer -= realTimeToGameMinute;
             AddMinute();
+            AddTotalMinutes();
         }
     }
 
     private void AddMinute()
     {
         minutes++;
-        //Testing
-        //minutes += 30;
 
         OnMinuteChanged?.Invoke();
 
@@ -77,6 +82,44 @@ public class TimeSystem : MonoBehaviour
         }
     }
 
+    #region  "Day/Night cycle"
+    private void AddTotalMinutes()
+    {
+        totalMinutesInCicle++;
+        if (DayNightSystem2D.Instance != null)
+            DayNightSystem2D.Instance.UpdateCycle(totalMinutesInCicle);
+    }
+
+    private int GetTotalMinutes()
+    {
+        if (hours >= 6 && hours < 10)
+        {
+            if (hours == 6) return minutes;
+            else return minutes + (60 * Math.Abs(6-hours));
+        }
+        else if (hours >= 10 && hours < 17)
+        {
+            if (hours == 10) return minutes;
+            else return minutes + (60 * Math.Abs(10-hours));
+        }
+        else if (hours >= 17 && hours < 20)
+        {
+            if (hours == 17) return minutes;
+            else return minutes + (60 * Math.Abs(17-hours));
+        }
+        else if (hours >= 20 && hours < 24)
+        {
+            if (hours == 20) return minutes;
+            else return minutes + (60 * Math.Abs(20-hours));
+        }
+        else
+        {
+            if (hours == 24) return minutes;
+            else return minutes + (60 * hours);
+        }
+
+    }
+    #endregion
     private void AddHour()
     {
         hours++;
@@ -93,6 +136,16 @@ public class TimeSystem : MonoBehaviour
     {
         days++;
         OnDayChanged?.Invoke();
+    }
+
+    public void AddEightHours()
+    {
+        int i = 0;
+        while (i < 8)
+        {
+            AddHour();
+            i++;
+        }
     }
 
     public string FormatTime()

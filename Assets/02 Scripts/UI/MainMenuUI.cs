@@ -14,7 +14,13 @@ public class MainMenuUI : MonoBehaviour
 
     public GameObject StartGameUI;
 
+    public GameObject StartGameDay;
+    public GameObject StartGameNight;
+
     public GameObject NewGameUI;
+
+    public GameObject dayMenu;
+    public GameObject nightMenu;
 
     void OnEnable()
     {
@@ -32,6 +38,31 @@ public class MainMenuUI : MonoBehaviour
 
     void Start()
     {
+        if (DataManager.Instance.DeserializeJson() != null)
+        {
+            GameStats gameStats = DataManager.Instance.DeserializeJson();
+
+            string text = "Loaded game data (hours):";
+            Debug.Log(text + gameStats.Hours);
+            if (gameStats.Hours > 6 && gameStats.Hours <= 20) // If is day
+            {
+                dayMenu.SetActive(true);
+                nightMenu.SetActive(false);
+                StartGameUI = StartGameDay;
+            }
+            else
+            {
+                dayMenu.SetActive(false);
+                nightMenu.SetActive(true);
+                StartGameUI = StartGameNight;
+            }
+
+        }
+        else
+        {
+            dayMenu.SetActive(true);
+        }
+
         if (AudioManager.Instance != null)
             AudioManager.Instance.PlayMusic("Intro");
     }
@@ -70,6 +101,7 @@ public class MainMenuUI : MonoBehaviour
         if (DataManager.Instance != null)
         {
             DataManager.Instance.NewGameStats(pName, 4, 10, true);
+            DataManager.Instance.NewSoil();
             DataManager.Instance.SerializeJson(true,true,true);
         }
     }

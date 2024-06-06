@@ -12,9 +12,9 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: AlexDIban
-  productName: HappyFarming
-  defaultCursor: {fileID: 2800000, guid: 280a683e29c4e274d8f332fb5aaefc47, type: 3}
+  companyName: ANeptuno
+  productName: Enchanted Meadows
+  defaultCursor: {fileID: 2800000, guid: 41b00614d3a2da34981299af2027e947, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

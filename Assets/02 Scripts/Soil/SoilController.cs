@@ -147,7 +147,7 @@ public class SoilController : MonoBehaviour
         if (finishedForcedGrow) isForcedToGrow = false;
 
         // -- Collect crop
-        if (playerInTrigger && IsFacing && readyToCollect && Input.GetKeyDown(KeyCode.E))
+        if (playerInTrigger && readyToCollect && Input.GetKeyDown(KeyCode.E))
         {
             if (GameManager.Instance.playerEnergy > 0)
                 CollectCrop();

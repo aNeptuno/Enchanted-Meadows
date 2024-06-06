@@ -236,20 +236,6 @@ public class CanvasController : MonoBehaviour
     }
     #endregion
 
-    /* public void MakeBedFade(float time, PlayerController player)
-    {
-        StartCoroutine(FadeEffect(time, player));
-    }
-
-    IEnumerator FadeEffect(float time, PlayerController player)
-    {
-        player.IsSleeping = true;
-        SleepFade.SetActive(true);
-        yield return new WaitForSeconds(time);
-        SleepFade.SetActive(false);
-        player.IsSleeping = false;
-    }
- */
     IEnumerator FadeEffect(float time)
     {
         SleepFade.SetActive(true);
@@ -266,6 +252,11 @@ public class CanvasController : MonoBehaviour
         errorPanelMsg.GetComponent<TextMeshProUGUI>().text = errorLog;
 
         #endif
+    }
+
+    public void ChangeTime()
+    {
+        TimeSystem.Instance.hours++;
     }
 
 }

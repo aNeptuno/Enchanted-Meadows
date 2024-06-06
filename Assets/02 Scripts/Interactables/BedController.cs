@@ -61,7 +61,7 @@ public class BedController : MonoBehaviour
             player.RemoveSeedInHand();
             player.IsInBed = true;
         }
-        TimeSystem.Instance.AddDay();
+        TimeSystem.Instance.AddEightHours();
         GameManager.Instance.GrowCrops();
         GameManager.Instance.RestoreEnergy();
         StartCoroutine(SaveAndInit());
@@ -74,6 +74,8 @@ public class BedController : MonoBehaviour
         GameManager.Instance.GameInitialization();
         // sonido de gallo
         player.IsInBed = false;
+
+        AudioManager.Instance.PlaySFX("Wakeup",false);
     }
 
 }

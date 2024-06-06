@@ -1,5 +1,133 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &294281346514880180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2439155347722403808}
+  - component: {fileID: 4268539209834916542}
+  m_Layer: 0
+  m_Name: EnvironmentSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2439155347722403808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294281346514880180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8775279352009079151}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &4268539209834916542
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294281346514880180}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.65
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &344359618924133159
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +417,7 @@ Transform:
   - {fileID: 1931316160545511670}
   - {fileID: 1441659230845351887}
   - {fileID: 708108832151082950}
+  - {fileID: 2439155347722403808}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1787394616927516289
@@ -309,7 +438,7 @@ MonoBehaviour:
   - soundName: Town
     clip: {fileID: 8300000, guid: 34611d26db83ac24b8ef8fcd69789a07, type: 3}
   - soundName: MainTheme
-    clip: {fileID: 8300000, guid: 06ed8edb429dda4478f8f0e5be69d41f, type: 3}
+    clip: {fileID: 8300000, guid: 9f0ab92fb2d96d644b0e72e39f5f775e, type: 3}
   sfxSounds:
   - soundName: DoorOpen
     clip: {fileID: 8300000, guid: 4c84eb9fe2eb81248ae38cb337452749, type: 3}
@@ -327,6 +456,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5092a7f9651ccf74381b9230332a7716, type: 3}
   - soundName: No
     clip: {fileID: 8300000, guid: 679a7bc20e3b28345855b61c58af3dd5, type: 3}
+  - soundName: Wakeup
+    clip: {fileID: 8300000, guid: ff47cc2796a2b46449f7976b8e152ea6, type: 3}
   sfxPlayerSounds:
   - soundName: Watering
     clip: {fileID: 8300000, guid: df34b94594cfded42b5b7a8b43402dbb, type: 3}
@@ -336,10 +467,17 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 108d1c6b983d6144e9505f2eed022a22, type: 3}
   - soundName: Run
     clip: {fileID: 8300000, guid: ac21dd5fd1d549a48bbe5e149d08bee6, type: 3}
+  envSounds:
+  - soundName: Day
+    clip: {fileID: 8300000, guid: 8d81ec73226f11d48808b30765fed478, type: 3}
+  - soundName: Night
+    clip: {fileID: 8300000, guid: 5898a007db0fcb04fb744e8d6268fb44, type: 3}
   musicSource: {fileID: 3033145512495233866}
   sfxSource: {fileID: 8554857487226354986}
   sfxPlayerSource: {fileID: 1558119291855418282}
+  environmentSource: {fileID: 4268539209834916542}
   player: {fileID: 0}
+  fadeDuration: 1
 --- !u!1 &2804014038703671066
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +522,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0

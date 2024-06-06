@@ -19,6 +19,8 @@ public class SceneLoadManager : MonoBehaviour
         }
     }
     #endregion
+
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("<color=yellow> Scene loaded (Scene load manager): " + scene.name+"</color>");
@@ -39,5 +41,6 @@ public class SceneLoadManager : MonoBehaviour
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
 }
 

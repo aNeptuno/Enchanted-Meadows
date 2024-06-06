@@ -11,6 +11,9 @@ public class ExitGameUI : MonoBehaviour
     public GameObject ExitGameUIGameTimeDay;
 
     public GameObject playerName;
+
+    public GameObject playerShowCaseDay;
+    public GameObject playerShowCaseNight;
     void OnEnable()
     {
         if (DataManager.Instance != null)
@@ -32,6 +35,18 @@ public class ExitGameUI : MonoBehaviour
 
                 // Player name
                 playerName.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerName;
+            }
+
+            // Showcase day/night
+            if (TimeSystem.Instance.hours > 6 && TimeSystem.Instance.hours <= 20) // If is day
+            {
+                playerShowCaseDay.SetActive(true);
+                playerShowCaseNight.SetActive(false);
+            }
+            else
+            {
+                playerShowCaseDay.SetActive(false);
+                playerShowCaseNight.SetActive(true);
             }
         }
     }
