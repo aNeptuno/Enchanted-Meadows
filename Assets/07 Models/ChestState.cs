@@ -5,10 +5,6 @@ using System.Collections.Generic;
 public class ChestState
 {
 	public List<CropModel> cropsInChest = new List<CropModel>();
-	/* {
-		new CropModel("Potato", 4),
-		new CropModel("Carrot", 4)
-    }; */
 
 	public void EmptyList()
 	{
@@ -16,6 +12,10 @@ public class ChestState
 	}
 
 	public ChestState()
+	{
+	}
+
+	public void InitializeChest()
 	{
 		cropsInChest.Add(new CropModel("Potato", 4));
 		cropsInChest.Add(new CropModel("Carrot", 4));

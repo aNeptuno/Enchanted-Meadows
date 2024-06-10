@@ -102,6 +102,7 @@ public class MainMenuUI : MonoBehaviour
         {
             DataManager.Instance.NewGameStats(pName, 4, 10, true);
             DataManager.Instance.NewSoil();
+            DataManager.Instance.NewChest();
             DataManager.Instance.SerializeJson(true,true,true);
         }
     }

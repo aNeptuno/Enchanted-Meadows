@@ -26,9 +26,10 @@ public class SceneLoadManager : MonoBehaviour
         Debug.Log("<color=yellow> Scene loaded (Scene load manager): " + scene.name+"</color>");
         if (scene.name == "Scene01")
         {
-            if (GameManager.Instance != null)
-                GameManager.Instance.GameInitialization();
-            else Debug.Log("GameManager is null");
+            if (GameManager.Instance != null && !SetPlayerInBridge)
+                GameManager.Instance.GameInitialization(false);
+            else if (GameManager.Instance != null && SetPlayerInBridge)
+                GameManager.Instance.GameInitialization(true);
 
             PlayerController player = FindObjectOfType<PlayerController>();
             if (player != null)
@@ -47,6 +48,11 @@ public class SceneLoadManager : MonoBehaviour
             if (AudioManager.Instance != null)
                 AudioManager.Instance.StopEnvironment();
         }
+        /* else if (scene.name == "Scene02")
+        {
+            if (GameManager.Instance != null && SetPlayerInBridge)
+                GameManager.Instance.GameInitialization(true);
+        } */
     }
 
     private void OnEnable()

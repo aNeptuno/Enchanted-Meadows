@@ -27,12 +27,16 @@ public class DataManager : MonoBehaviour
     #region "DATA SERVICE"
     private GameStats GameStats = new GameStats();
     private ChestState ChestState = new ChestState();
-    //private SoilState SoilState = new SoilState();
     private MatrixSoilState MatrixSoilState = new MatrixSoilState();
     private IDataService DataService = new JsonDataService();
     private bool EncryptionEnabled;
     private long SaveTime;
     private long LoadTime;
+
+    // TEMPORAL DATA
+    private GameStats GameStatsTemp = new GameStats();
+    private ChestState ChestStateTemp = new ChestState();
+    private MatrixSoilState MatrixSoilStateTemp = new MatrixSoilState();
 
     [SerializeField] private List<Crop> availableCropsInGame;
 
@@ -47,6 +51,8 @@ public class DataManager : MonoBehaviour
     }
     public void NewSoil() => MatrixSoilState = new MatrixSoilState();
 
+    public void NewChest() => ChestState.InitializeChest();
+
         #region "Game Stats"
     public void NewGameStats(string pName, int pEnergy, int pCoins, bool newGame)
     {
@@ -59,12 +65,30 @@ public class DataManager : MonoBehaviour
         GameStats.Days = 1;
     }
 
+    public void NewGameStatsTemp(string pName, int pEnergy, int pCoins, bool newGame)
+    {
+        GameStatsTemp.PlayerName = pName;
+        GameStatsTemp.PlayerEnergy = pEnergy;
+        GameStatsTemp.PlayerCoins = pCoins;
+        GameStatsTemp.NewGame = newGame;
+        GameStatsTemp.Hours = 8;
+        GameStatsTemp.Minutes = 0;
+        GameStatsTemp.Days = 1;
+    }
+
 
     public void GameStatsSaveTime(int hours, int minutes, int days)
     {
         GameStats.Hours = hours;
         GameStats.Minutes = minutes;
         GameStats.Days = days;
+    }
+
+    public void GameStatsSaveTimeTemp(int hours, int minutes, int days)
+    {
+        GameStatsTemp.Hours = hours;
+        GameStatsTemp.Minutes = minutes;
+        GameStatsTemp.Days = days;
     }
     #endregion
 
@@ -81,6 +105,23 @@ public class DataManager : MonoBehaviour
                 CropModel cropModel = new CropModel(crop.cropName, crop.amountOfSeedsInStorage);
                 if (crop.amountOfSeedsInStorage > 0)
                     ChestState.cropsInChest.Add(cropModel);
+            }
+        }
+        else Debug.Log("crops in chest is null");
+    }
+
+    public void SaveChestStateTemp(List<Crop> cropsInChest)
+    {
+        if (cropsInChest != null)
+        {
+            // Empty list
+            ChestStateTemp.EmptyList();
+
+            foreach(Crop crop in cropsInChest)
+            {
+                CropModel cropModel = new CropModel(crop.cropName, crop.amountOfSeedsInStorage);
+                if (crop.amountOfSeedsInStorage > 0)
+                    ChestStateTemp.cropsInChest.Add(cropModel);
             }
         }
         else Debug.Log("crops in chest is null");
@@ -153,6 +194,20 @@ public class DataManager : MonoBehaviour
                     for (int j = 0; j < 6; j++)
                     {
                         MatrixSoilState.AddMemberToMatrix(i,j, ParseToSoilState(SoilManager.Instance.soilControllers[i,j]));
+                    }
+                }
+            }
+        }
+
+        public void SaveSoilMatrixStateTemp()
+        {
+            if (SoilManager.Instance != null)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    for (int j = 0; j < 6; j++)
+                    {
+                        MatrixSoilStateTemp.AddMemberToMatrix(i,j, ParseToSoilState(SoilManager.Instance.soilControllers[i,j]));
                     }
                 }
             }
@@ -282,6 +337,128 @@ public class DataManager : MonoBehaviour
         try
         {
             MatrixSoilState loadedStats = DataService.LoadData<MatrixSoilState>("/soil-state.json", EncryptionEnabled);
+            LoadTime = DateTime.Now.Ticks - startTime;
+            //Debug.Log("LoadTime (soil): " +LoadTime / 1000f +" ms");
+
+            return(loadedStats);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"Could not load the file due to {e.Message}");
+            return null;
+        };
+    }
+    #endregion
+
+
+    #region "Serialize / Deserialize Temporal data"
+    /// <summary>
+    /// Save data
+    /// </summary>
+    public void SerializeJsonTemp(bool gameStats, bool chestState, bool soilState)
+    {
+
+        if (gameStats)
+        {
+            long startTime = DateTime.Now.Ticks;
+            if (DataService.SaveData("/game-stats-temp.json", GameStatsTemp, EncryptionEnabled))
+            {
+                SaveTime = DateTime.Now.Ticks - startTime;
+                Debug.Log("SaveTime: " +SaveTime / 1000f +" ms");
+            }
+            else
+            {
+                Debug.Log("Could not save the file");
+            };
+        }
+
+        if (chestState)
+        {
+            long startTime = DateTime.Now.Ticks;
+            if (DataService.SaveData("/chest-state-temp.json", ChestStateTemp, EncryptionEnabled))
+            {
+                SaveTime = DateTime.Now.Ticks - startTime;
+                Debug.Log("SaveTime: " +SaveTime / 1000f +" ms");
+            }
+            else
+            {
+                Debug.Log("Could not save the file");
+            };
+        }
+
+        if (soilState)
+        {
+            long startTime = DateTime.Now.Ticks;
+            if (DataService.SaveData("/soil-state-temp.json", MatrixSoilStateTemp, EncryptionEnabled))
+            {
+                SaveTime = DateTime.Now.Ticks - startTime;
+                Debug.Log("SaveTime: " +SaveTime / 1000f +" ms");
+            }
+            else
+            {
+                Debug.Log("Could not save the file");
+            };
+        }
+    }
+
+
+    /// <summary>
+    /// Load GameStats
+    /// </summary>
+    /// <returns></returns>
+    public GameStats DeserializeJsonTemp()
+    {
+        long startTime = DateTime.Now.Ticks;
+        try
+        {
+            GameStats loadedStats = DataService.LoadData<GameStats>("/game-stats-temp.json", EncryptionEnabled);
+            LoadTime = DateTime.Now.Ticks - startTime;
+            //Debug.Log("LoadTime (game data): " +LoadTime / 1000f +" ms");
+
+            return(loadedStats);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"Could not load the file due to {e.Message}");
+            return null;
+        };
+    }
+
+    /// <summary>
+    /// Load ChestState
+    /// </summary>
+    /// <returns></returns>
+    public ChestState DeserializeJsonChestTemp()
+    {
+        long startTime = DateTime.Now.Ticks;
+        try
+        {
+            ChestState loadedStats = DataService.LoadData<ChestState>("/chest-state-temp.json", EncryptionEnabled);
+            LoadTime = DateTime.Now.Ticks - startTime;
+            //Debug.Log("LoadTime (chest): " +LoadTime / 1000f +" ms");
+
+            return(loadedStats);
+
+        }
+        catch (Exception e)
+        {
+            Debug.Log($"Could not load the file due to {e.Message}");
+            return null;
+        };
+    }
+
+    /// <summary>
+    /// Load SoilState
+    /// </summary>
+    /// <returns></returns>
+    public MatrixSoilState DeserializeJsonSoilTemp()
+    {
+        long startTime = DateTime.Now.Ticks;
+        try
+        {
+            MatrixSoilState loadedStats = DataService.LoadData<MatrixSoilState>("/soil-state-temp.json", EncryptionEnabled);
             LoadTime = DateTime.Now.Ticks - startTime;
             //Debug.Log("LoadTime (soil): " +LoadTime / 1000f +" ms");
 

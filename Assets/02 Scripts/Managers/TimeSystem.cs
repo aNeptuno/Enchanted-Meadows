@@ -144,14 +144,17 @@ public class TimeSystem : MonoBehaviour
     public void AddEightHours()
     {
         int i = 0;
-        while (i < 8)
+        // 8hourse = 480 minutes
+        while (i < 480)
         {
-            AddHour();
+            AddMinute();
+            AddTotalMinutes();
             i++;
         }
-        totalMinutesInCicle = GetTotalMinutes();
+        //totalMinutesInCicle = GetTotalMinutes();
         if (DayNightSystem2D.Instance != null)
             DayNightSystem2D.Instance.UpdateCycle(totalMinutesInCicle);
+        Debug.Log($"update cicle totalMinutesInCicle: {totalMinutesInCicle}");
     }
 
     public string FormatTime()

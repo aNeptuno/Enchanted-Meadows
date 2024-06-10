@@ -69,9 +69,10 @@ public class BedController : MonoBehaviour
 
     IEnumerator SaveAndInit()
     {
-        GameManager.Instance.SaveGame();
+        //GameManager.Instance.SaveGame();
+        GameManager.Instance.SaveGameTemp();
         yield return new WaitForSeconds(3f);
-        GameManager.Instance.GameInitialization();
+        GameManager.Instance.GameInitialization(true);
         // sonido de gallo
         player.IsInBed = false;
 

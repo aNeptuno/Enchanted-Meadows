@@ -45,7 +45,7 @@ public class SoilManager : MonoBehaviour
             }
         } else Debug.Log("SOIL CONTROLLERS NULL");
     }
-    public void GenerateSoil()
+    public void GenerateSoil(bool temp)
     {
         playerTransform = FindObjectOfType<PlayerController>().GetComponent<Transform>();
 
@@ -71,18 +71,26 @@ public class SoilManager : MonoBehaviour
             }
             spacingY += 0.5f;
         }
-        LoadSoilState();
+        LoadSoilState(temp);
     }
 
-    public void LoadSoilState()
+    public void LoadSoilState(bool temp)
     {
-        MatrixSoilState LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        MatrixSoilState LoadedSoil;
+        if (!temp)
+            LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        else
+            LoadedSoil = DataManager.Instance.DeserializeJsonSoilTemp();
+
         if (LoadedSoil != null)
             DataManager.Instance.LoadSoilMatrix(LoadedSoil);
         else Debug.Log("matrix is null");
 
         string text = "Loaded soil: \r\n" + JsonConvert.SerializeObject(LoadedSoil, Formatting.Indented);
-        Debug.Log(text);
+        //Debug.Log(text);
+
+        foreach(SoilController soil in soilControllers)
+            soil.LoadCropSprite();
     }
 
     #region "Update / Get Facing Soil"

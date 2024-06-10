@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -39,8 +40,7 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
 
     public void UpdateUI()
     {
-        foreach(KeyValuePair<string,GameObject> cropBag in posibleCropBags)
-            cropBag.Value.SetActive(false);
+        ResetItemUI();
         if (thisCrop != null)
             posibleCropBags[thisCrop.name].SetActive(true);
     }
@@ -83,6 +83,12 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
         // Add to chest
         if (!ChestController.Instance.CropsInChest.Contains(thisCrop))
             ChestController.Instance.CropsInChest.Add(thisCrop);
+    }
+
+    public void ResetItemUI()
+    {
+        foreach(KeyValuePair<string,GameObject> cropBag in posibleCropBags)
+            cropBag.Value.SetActive(false);
     }
 
 }

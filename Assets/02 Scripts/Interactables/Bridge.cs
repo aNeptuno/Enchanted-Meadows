@@ -73,7 +73,8 @@ public class Bridge : MonoBehaviour
 
     void LoadTheScene(string sceneName)
     {
-        GameManager.Instance.SaveGame();
+        //GameManager.Instance.SaveGame();
+        GameManager.Instance.SaveGameTemp();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         CanvasController.Instance.HideBridgeUI(!fromHouse);
 

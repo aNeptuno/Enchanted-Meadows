@@ -41,5 +41,6 @@ public class HoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public void OnPointerExit(PointerEventData eventData)
     {
         image.color = originalColor;
+        descriptionUI.ResetDescription();
     }
 }

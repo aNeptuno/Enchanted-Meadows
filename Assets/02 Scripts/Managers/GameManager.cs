@@ -55,14 +55,34 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.SerializeJson(true,true,true);
     }
 
+    public void SaveGameTemp()
+    {
+        // Save game stats
+        DataManager.Instance.NewGameStatsTemp(playerName, playerEnergy, playerCoins, newGame);
+        DataManager.Instance.GameStatsSaveTimeTemp(TimeSystem.Instance.hours, TimeSystem.Instance.minutes, TimeSystem.Instance.days);
+
+        // Save chest state
+        DataManager.Instance.SaveChestStateTemp(ChestController.Instance.CropsInChest);
+
+        // Save soil state
+        DataManager.Instance.SaveSoilMatrixStateTemp();
+
+        // Save all to file
+        DataManager.Instance.SerializeJsonTemp(true,true,true);
+    }
+
     public void NewGame() // testing
     {
         DataManager.Instance.NewGame();
     }
 
-    public void LoadGame() // obtain data
+    public void LoadGame(bool temp) // obtain data
     {
-        GameStats LoadedGame = DataManager.Instance.DeserializeJson(); // como se inicializa desde menu start, no deberia ser nulo
+        GameStats LoadedGame;
+        if (!temp)
+            LoadedGame = DataManager.Instance.DeserializeJson(); // como se inicializa desde menu start, no deberia ser nulo
+        else
+            LoadedGame = DataManager.Instance.DeserializeJsonTemp();
 
         playerEnergy = LoadedGame.PlayerEnergy;
         playerCoins = LoadedGame.PlayerCoins;
@@ -73,15 +93,24 @@ public class GameManager : MonoBehaviour
         //Debug.Log(text);
     }
 
-    public void LoadChestState()
+    public void LoadChestState(bool temp)
     {
-        ChestState LoadedChest = DataManager.Instance.DeserializeJsonChest();
+        ChestState LoadedChest;
+        if (!temp)
+            LoadedChest = DataManager.Instance.DeserializeJsonChest();
+        else
+            LoadedChest = DataManager.Instance.DeserializeJsonChestTemp();
+
         DataManager.Instance.ParseAndAddToChest(LoadedChest.cropsInChest);
     }
 
-    public void LoadSoilState()
+    public void LoadSoilState(bool temp)
     {
-        MatrixSoilState LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        MatrixSoilState LoadedSoil;
+        if (!temp)
+            LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
+        else
+            LoadedSoil = DataManager.Instance.DeserializeJsonSoilTemp();
         DataManager.Instance.LoadSoilMatrix(LoadedSoil);
     }
 
@@ -90,25 +119,27 @@ public class GameManager : MonoBehaviour
     #region  "Game Start Initialization"
     void Start()
     {
-        GameInitialization();
+        GameInitialization(false);
         player = FindAnyObjectByType<PlayerController>();
         playerStartPosition = player.transform.position;
     }
 
-    public void GameInitialization()
+    /// Temp indicates when the data is temporal data
+    public void GameInitialization(bool temp)
     {
-        MyDebugLog.Instance.MyDebugFunc("Game initialization",null,"cyan");
-        LoadGame();
-        LoadChestState();
+        MyDebugLog.Instance.MyDebugFunc($"Game initialization temp?: {temp}",null,"cyan");
+        LoadGame(temp);
+        LoadChestState(temp);
 
         // Remove previous soil controllers
         SoilManager.Instance.RemoveAllSoilControllers();
 
         // Generates new soil controllers and loads soil state
-        SoilManager.Instance.GenerateSoil();
+        SoilManager.Instance.GenerateSoil(temp);
 
         if (newGame == true) newGame = false;
     }
+
 
     #endregion
 

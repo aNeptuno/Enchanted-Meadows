@@ -46,6 +46,7 @@ public class ChestDescriptionUIController : MonoBehaviour
         descriptionEnergyCost.GetComponent<TextMeshProUGUI>().text = "";
         descriptionGrowTime.GetComponent<TextMeshProUGUI>().text = "";
         selectedCropDisplay.thisCrop = null;
+        selectedCropDisplay.ResetItemUI();
     }
 
 

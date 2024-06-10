@@ -163,13 +163,17 @@ public class SoilController : MonoBehaviour
 
     public void ForceToGrow()
     {
-        isForcedToGrow = true;
-        SpriteIndex = currentCrop.growStatesSprites.Count;
+        if (CurrentDirtState != DirtStates.TILLED)
+        {
+            isForcedToGrow = true;
+            SpriteIndex = currentCrop.growStatesSprites.Count;
 
-        // Desactivate seeded tile
-        CurrentDirtState = DirtStates.PLANTED;
-        CanCollectCrop();
-        finishedForcedGrow = true;
+            // Desactivate seeded tile
+            CurrentDirtState = DirtStates.PLANTED;
+            CanCollectCrop();
+            finishedForcedGrow = true;
+        }
+        else StartCoroutine(ResetSoil(0));
     }
 
     void CollectCrop()
@@ -242,14 +246,15 @@ public class SoilController : MonoBehaviour
 
             yield return new WaitForSeconds(growTime);
 
-
+            if (currentCrop != null && !isForcedToGrow)
                 growTime = currentCrop.growTime;
 
             // Desactivate seeded tile
-            CurrentDirtState = DirtStates.PLANTED;
+            if (currentCrop != null && !isForcedToGrow)
+                CurrentDirtState = DirtStates.PLANTED;
 
             int i = SpriteIndex;
-            while(i < statesSprites.Count && !readyToCollect)
+            while(i < statesSprites.Count && !readyToCollect && currentCrop != null && !isForcedToGrow)
             {
                 currentCropState.GetComponent<SpriteRenderer>().sprite = statesSprites[i];
                 yield return new WaitForSeconds(growTime * timeMult);
@@ -259,10 +264,32 @@ public class SoilController : MonoBehaviour
                 SpriteIndex = i;
             }
 
-            if (SpriteIndex == statesSprites.Count)
+            if (currentCrop != null && !isForcedToGrow)
             {
-                yield return new WaitForSeconds(growTime * timeMult);
-                CanCollectCrop();
+                if (SpriteIndex == statesSprites.Count)
+                {
+                    yield return new WaitForSeconds(growTime * timeMult);
+                    CanCollectCrop();
+                }
+            }
+        }
+    }
+
+    public void LoadCropSprite()
+    {
+        if (currentCrop != null)
+        {
+            if (CurrentDirtState == DirtStates.PLANTED)
+            {
+                if (SpriteIndex < currentCrop.growStatesSprites.Count)
+                    currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.growStatesSprites[SpriteIndex];
+                else if (!readyToCollect)
+                    currentCropState.GetComponent<SpriteRenderer>().sprite = currentCrop.growStatesSprites[SpriteIndex - 1];
+            }
+            if (CurrentDirtState == DirtStates.TILLED)
+            {
+                //Debug.Log($"is tilled i:{iMatrix}  j:{jMatrix}");
+                StartCoroutine(ResetSoil(0));
             }
         }
     }
@@ -281,11 +308,10 @@ public class SoilController : MonoBehaviour
         startedGrowing = false;
         readyToCollect = false;
 
-        isForcedToGrow = false;
-        finishedForcedGrow = false;
-
         yield return new WaitForSeconds(waitTime);
         CurrentDirtState = DirtStates.NATURAL;
+        isForcedToGrow = false;
+        finishedForcedGrow = false;
     }
 
 }

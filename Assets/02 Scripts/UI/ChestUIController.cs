@@ -22,8 +22,8 @@ public class ChestUIController : MonoBehaviour
                 itemListController.thisCrop = ChestController.Instance.CropsInChest[i];
                 itemListController.UpdateUI();
             }
-
         }
+
     }
 
     public void RestoreUI()
