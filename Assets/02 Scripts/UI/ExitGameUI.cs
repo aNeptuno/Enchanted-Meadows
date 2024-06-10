@@ -11,6 +11,7 @@ public class ExitGameUI : MonoBehaviour
     public GameObject ExitGameUIGameTimeDay;
 
     public GameObject playerName;
+    public GameObject playerNameNight;
 
     public GameObject playerShowCaseDay;
     public GameObject playerShowCaseNight;
@@ -33,8 +34,8 @@ public class ExitGameUI : MonoBehaviour
                 ExitGameUIGameTime.GetComponent<TextMeshProUGUI>().text = GetUIGameTime();
                 ExitGameUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = GetUIGameTimeDay();
 
-                // Player name
-                playerName.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerName;
+                /* // Player name
+                playerName.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerName; */
             }
 
             // Showcase day/night
@@ -42,11 +43,15 @@ public class ExitGameUI : MonoBehaviour
             {
                 playerShowCaseDay.SetActive(true);
                 playerShowCaseNight.SetActive(false);
+                // Player name
+                playerName.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerName;
             }
             else
             {
                 playerShowCaseDay.SetActive(false);
                 playerShowCaseNight.SetActive(true);
+                // Player name
+                playerNameNight.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.playerName;
             }
         }
     }

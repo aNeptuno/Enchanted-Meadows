@@ -174,14 +174,16 @@ public class SoilController : MonoBehaviour
 
     void CollectCrop()
     {
-        //player.CollectCrop(currentCrop);
         // Coin animation
 
         // Sound
         AudioManager.Instance.PlaySFX("Collect",false);
         // UI
-        GameManager.Instance.AddCoins(currentCrop.earnCoins);
-        GameManager.Instance.DecreaseEnergy(currentCrop.energyCost);
+        if (currentCrop != null)
+        {
+            GameManager.Instance.AddCoins(currentCrop.earnCoins);
+            GameManager.Instance.DecreaseEnergy(currentCrop.energyCost);
+        }
 
         StartCoroutine(ResetSoil(0.3f));
     }
@@ -257,7 +259,11 @@ public class SoilController : MonoBehaviour
                 SpriteIndex = i;
             }
 
-            if (SpriteIndex == statesSprites.Count) CanCollectCrop();
+            if (SpriteIndex == statesSprites.Count)
+            {
+                yield return new WaitForSeconds(growTime * timeMult);
+                CanCollectCrop();
+            }
         }
     }
 

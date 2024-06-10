@@ -30,10 +30,11 @@ public class GameManager : MonoBehaviour
     public bool newGame;
     public string playerName;
 
-    /* public List<Crop> cropsInChest; */
-
     #endregion
     public bool forceGrowCrops = false;
+
+    public PlayerController player;
+    public Vector3 playerStartPosition;
 
     //------------------------------
 
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
         playerName =  LoadedGame.PlayerName;
 
         string text = "Loaded game data (From Game Manager): \r\n" + JsonConvert.SerializeObject(LoadedGame, Formatting.Indented);
-        Debug.Log(text);
+        //Debug.Log(text);
     }
 
     public void LoadChestState()
@@ -90,6 +91,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameInitialization();
+        player = FindAnyObjectByType<PlayerController>();
+        playerStartPosition = player.transform.position;
     }
 
     public void GameInitialization()

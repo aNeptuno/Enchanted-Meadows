@@ -54,6 +54,8 @@ public class TimeSystem : MonoBehaviour
             }
 
             totalMinutesInCicle = GetTotalMinutes();
+            if (DayNightSystem2D.Instance != null)
+                DayNightSystem2D.Instance.UpdateCycle(totalMinutesInCicle);
         }
     }
 
@@ -138,6 +140,7 @@ public class TimeSystem : MonoBehaviour
         OnDayChanged?.Invoke();
     }
 
+    /// Bed
     public void AddEightHours()
     {
         int i = 0;
@@ -146,6 +149,9 @@ public class TimeSystem : MonoBehaviour
             AddHour();
             i++;
         }
+        totalMinutesInCicle = GetTotalMinutes();
+        if (DayNightSystem2D.Instance != null)
+            DayNightSystem2D.Instance.UpdateCycle(totalMinutesInCicle);
     }
 
     public string FormatTime()

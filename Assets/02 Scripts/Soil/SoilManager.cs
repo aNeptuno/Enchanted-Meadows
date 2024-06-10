@@ -37,10 +37,13 @@ public class SoilManager : MonoBehaviour
     public void RemoveAllSoilControllers()
     {
         SoilController[] soilControllers = FindObjectsOfType<SoilController>();
-        foreach (SoilController soilController in soilControllers)
+        if (soilControllers != null)
         {
-            Destroy(soilController.gameObject);
-        }
+            foreach (SoilController soilController in soilControllers)
+            {
+                Destroy(soilController.gameObject);
+            }
+        } else Debug.Log("SOIL CONTROLLERS NULL");
     }
     public void GenerateSoil()
     {
@@ -74,7 +77,9 @@ public class SoilManager : MonoBehaviour
     public void LoadSoilState()
     {
         MatrixSoilState LoadedSoil = DataManager.Instance.DeserializeJsonSoil();
-        DataManager.Instance.LoadSoilMatrix(LoadedSoil);
+        if (LoadedSoil != null)
+            DataManager.Instance.LoadSoilMatrix(LoadedSoil);
+        else Debug.Log("matrix is null");
 
         string text = "Loaded soil: \r\n" + JsonConvert.SerializeObject(LoadedSoil, Formatting.Indented);
         Debug.Log(text);

@@ -20,7 +20,7 @@ public class SceneLoadManager : MonoBehaviour
     }
     #endregion
 
-
+    public bool SetPlayerInBridge = false;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("<color=yellow> Scene loaded (Scene load manager): " + scene.name+"</color>");
@@ -29,6 +29,23 @@ public class SceneLoadManager : MonoBehaviour
             if (GameManager.Instance != null)
                 GameManager.Instance.GameInitialization();
             else Debug.Log("GameManager is null");
+
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player != null)
+            {
+                if (SetPlayerInBridge)
+                {
+                    player.SetBridgePosition();
+                    SetPlayerInBridge = false;
+                }
+                else player.SetInitialPosition();
+            }
+
+        }
+        else if (scene.name == "Scene00")
+        {
+            if (AudioManager.Instance != null)
+                AudioManager.Instance.StopEnvironment();
         }
     }
 

@@ -162,4 +162,14 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+    public void SetInitialPosition()
+    {
+        this.transform.position = new Vector3(1.8f,2.0f,0);
+    }
+
+    public void SetBridgePosition()
+    {
+        this.transform.position = new Vector3(-2.6f,2.8f,0);
+    }
+
 }

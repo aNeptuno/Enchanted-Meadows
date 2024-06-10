@@ -24,6 +24,7 @@ public class Bridge : MonoBehaviour
     #endregion
     [SerializeField] private bool fromHouse;
 
+    public bool setPlayerInBridge = false;
     void Start()
     {
         if (SceneManager.GetActiveScene().name == "Scene01")
@@ -75,6 +76,8 @@ public class Bridge : MonoBehaviour
         GameManager.Instance.SaveGame();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         CanvasController.Instance.HideBridgeUI(!fromHouse);
+
+        if (SceneLoadManager.Instance != null) SceneLoadManager.Instance.SetPlayerInBridge = true;
     }
 
 

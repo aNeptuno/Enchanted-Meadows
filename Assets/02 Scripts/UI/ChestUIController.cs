@@ -8,6 +8,8 @@ public class ChestUIController : MonoBehaviour
     [SerializeField] private List<GameObject> itemListContainers;
     [SerializeField] private List<ChestItemUIController> itemListControllers;
 
+    public List<ChestItemUIController> ItemListControllers {get => itemListControllers; set => itemListControllers = value;}
+
     public void ShowCropsInChestInUI()
     {
         for(int i = 0; i < ChestController.Instance.CropsInChest.Count; i++)
@@ -18,6 +20,7 @@ public class ChestUIController : MonoBehaviour
                 ChestItemUIController itemListController = itemListContainers[i].GetComponent<ChestItemUIController>();
                 itemListControllers.Add(itemListController);
                 itemListController.thisCrop = ChestController.Instance.CropsInChest[i];
+                itemListController.UpdateUI();
             }
 
         }

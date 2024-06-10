@@ -81,10 +81,8 @@ public class ChestItemUIController : MonoBehaviour, IPointerClickHandler
         descriptionUI.ShowDescription();
 
         // Add to chest
-        ChestController.Instance.CropsInChest.Add(thisCrop);
-
-        /* // Save chest state
-        DataManager.Instance.SaveChestState(ChestController.Instance.CropsInChest); */
+        if (!ChestController.Instance.CropsInChest.Contains(thisCrop))
+            ChestController.Instance.CropsInChest.Add(thisCrop);
     }
 
 }
