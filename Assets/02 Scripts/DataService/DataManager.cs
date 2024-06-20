@@ -102,7 +102,7 @@ public class DataManager : MonoBehaviour
 
             foreach(Crop crop in cropsInChest)
             {
-                CropModel cropModel = new CropModel(crop.cropName, crop.amountOfSeedsInStorage);
+                CropModel cropModel = new CropModel(crop.cropID, crop.amountOfSeedsInStorage);
                 if (crop.amountOfSeedsInStorage > 0)
                     ChestState.cropsInChest.Add(cropModel);
             }
@@ -119,7 +119,7 @@ public class DataManager : MonoBehaviour
 
             foreach(Crop crop in cropsInChest)
             {
-                CropModel cropModel = new CropModel(crop.cropName, crop.amountOfSeedsInStorage);
+                CropModel cropModel = new CropModel(crop.cropID, crop.amountOfSeedsInStorage);
                 if (crop.amountOfSeedsInStorage > 0)
                     ChestStateTemp.cropsInChest.Add(cropModel);
             }
@@ -146,7 +146,7 @@ public class DataManager : MonoBehaviour
 
     public Crop FindCropByName(string name)
     {
-        return availableCropsInGame.Find(crop => crop.cropName == name);
+        return availableCropsInGame.Find(crop => crop.cropID == name);
     }
 
     #endregion
@@ -215,13 +215,13 @@ public class DataManager : MonoBehaviour
 
         public SoilState ParseToSoilState(SoilController soilCon)
         {
-            string cropName ="";
+            string cropID ="";
             if (soilCon != null)
             {
                 if (soilCon.currentCrop != null)
-                    cropName = soilCon.currentCrop.cropName;
+                    cropID = soilCon.currentCrop.cropID;
 
-                CropInSoil currentCrop = new CropInSoil(cropName, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect, soilCon.isForcedToGrow, soilCon.finishedForcedGrow);
+                CropInSoil currentCrop = new CropInSoil(cropID, soilCon.StartGrowing, soilCon.StartedGrowing, soilCon.SpriteIndex, soilCon.ReadyToCollect, soilCon.isForcedToGrow, soilCon.finishedForcedGrow);
 
                 return new SoilState(soilCon.CurrentDirtState, currentCrop);
             } else return null;

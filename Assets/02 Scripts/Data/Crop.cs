@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CropName", menuName = "NewCrop", order = 1)]
+[CreateAssetMenu(fileName = "cropID", menuName = "NewCrop", order = 1)]
 public class Crop : ScriptableObject
 {
-    public string cropName;
+    public string cropID;
 
     [Tooltip("Time to grow (seconds)")]
     public float growTime;

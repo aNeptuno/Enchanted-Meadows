@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c725f7b50daca2749a5b772d70d659f6, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  cropName: Tomato
+  cropID: Tomato
   growTime: 30
   earnCoins: 35
   seedCost: 20
   energyCost: 3
-  seedSprite: {fileID: -515929161, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   seedBagSprite: {fileID: 5596725, guid: 3d34f607fc311f4459261b2a3ad0f11d, type: 3}
   growStatesSprites:
   - {fileID: -1464720675, guid: 3d34f607fc311f4459261b2a3ad0f11d, type: 3}
@@ -25,3 +24,4 @@ MonoBehaviour:
   - {fileID: 1604516473, guid: 3d34f607fc311f4459261b2a3ad0f11d, type: 3}
   - {fileID: 709018989, guid: 3d34f607fc311f4459261b2a3ad0f11d, type: 3}
   cropSprite: {fileID: 508859974, guid: 3d34f607fc311f4459261b2a3ad0f11d, type: 3}
+  amountOfSeedsInStorage: 0

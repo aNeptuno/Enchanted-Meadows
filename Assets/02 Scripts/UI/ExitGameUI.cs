@@ -60,6 +60,6 @@ public class ExitGameUI : MonoBehaviour
     int GetUIEnergy() => GameManager.Instance.playerEnergy;
     string GetUIGameTime() => TimeSystem.Instance.FormatTime();
 
-    string GetUIGameTimeDay() => "Day " + TimeSystem.Instance.days.ToString();
+    string GetUIGameTimeDay() => "#" + TimeSystem.Instance.days.ToString();
 
 }

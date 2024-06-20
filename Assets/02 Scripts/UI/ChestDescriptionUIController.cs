@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Assets.SimpleLocalization.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public class ChestDescriptionUIController : MonoBehaviour
 
     public GameObject descriptionGrowTime;
 
+    public GameObject descriptionAmount;
+
     public ChestItemUIController selectedCropDisplay;
 
     void Start()
@@ -24,8 +27,9 @@ public class ChestDescriptionUIController : MonoBehaviour
 
     public void ShowDescription()
     {
-        descriptionName.GetComponent<TextMeshProUGUI>().text = selectedCrop.cropName + " (x"+selectedCrop.amountOfSeedsInStorage.ToString()+")";
+        descriptionName.GetComponent<TextMeshProUGUI>().text = LocalizationManager.Localize(selectedCrop.cropID);
 
+        descriptionAmount.GetComponent<TextMeshProUGUI>().text = "x"+selectedCrop.amountOfSeedsInStorage.ToString();
         if (!selectedCropDisplay.isStore)
             descriptionEarnCoins.GetComponent<TextMeshProUGUI>().text = selectedCrop.earnCoins.ToString();
         else
@@ -36,12 +40,14 @@ public class ChestDescriptionUIController : MonoBehaviour
 
         selectedCropDisplay.thisCrop = selectedCrop;
         selectedCropDisplay.UpdateUI();
-
     }
+
+
 
     public void ResetDescription()
     {
         descriptionName.GetComponent<TextMeshProUGUI>().text = "";
+        descriptionAmount.GetComponent<TextMeshProUGUI>().text = "";
         descriptionEarnCoins.GetComponent<TextMeshProUGUI>().text = "";
         descriptionEnergyCost.GetComponent<TextMeshProUGUI>().text = "";
         descriptionGrowTime.GetComponent<TextMeshProUGUI>().text = "";

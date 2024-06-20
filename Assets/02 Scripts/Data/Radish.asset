@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c725f7b50daca2749a5b772d70d659f6, type: 3}
   m_Name: Radish
   m_EditorClassIdentifier: 
-  cropName: Radish
+  cropID: Radish
   growTime: 12
   earnCoins: 20
   seedCost: 15
   energyCost: 2
-  seedSprite: {fileID: -515929161, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   seedBagSprite: {fileID: -708334397, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   growStatesSprites:
   - {fileID: 1017944087, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   - {fileID: 1417110536, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   - {fileID: -1322367389, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
   cropSprite: {fileID: 118389238, guid: 251d240631d39fa4abc0edbdc97341cd, type: 3}
+  amountOfSeedsInStorage: 0

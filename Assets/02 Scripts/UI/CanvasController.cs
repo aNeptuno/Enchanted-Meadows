@@ -62,6 +62,11 @@ public class CanvasController : MonoBehaviour
     [Header("Exit Game UI")]
     public GameObject ExitGameUI;
 
+    [Space(10)]
+
+    [Header("Settings UI")]
+    public GameObject settingsPanel;
+
     [Space(20)]
 
     [Header("--- TESTING ---")]
@@ -129,7 +134,7 @@ public class CanvasController : MonoBehaviour
     void UpdateUIGameTime()
     {
         GameStatsUIGameTime.GetComponent<TextMeshProUGUI>().text = TimeSystem.Instance.FormatTime();
-        GameStatsUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = "Day " + TimeSystem.Instance.days.ToString();
+        GameStatsUIGameTimeDay.GetComponent<TextMeshProUGUI>().text = "#" + TimeSystem.Instance.days.ToString();
     }
 
     #endregion
@@ -236,6 +241,25 @@ public class CanvasController : MonoBehaviour
     }
     #endregion
 
+    #region "Settings"
+
+    public void OpenSettings()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
+        if (!settingsPanel.activeSelf) settingsPanel.SetActive(true);
+    }
+
+    public void ExitSettings()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
+        if (settingsPanel.activeSelf) settingsPanel.SetActive(false);
+    }
+
+    #endregion
     IEnumerator FadeEffect(float time)
     {
         SleepFade.SetActive(true);

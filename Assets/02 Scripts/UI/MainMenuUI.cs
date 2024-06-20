@@ -22,17 +22,21 @@ public class MainMenuUI : MonoBehaviour
     public GameObject dayMenu;
     public GameObject nightMenu;
 
+    public GameObject settingsPanel;
+
     void OnEnable()
     {
         if (StartGameUI.activeSelf) StartGameUI.SetActive(false);
         if (NewGameUI.activeSelf) NewGameUI.SetActive(false);
+        if (settingsPanel.activeSelf) settingsPanel.SetActive(false);
     }
     void Update()
     {
-        if ((StartGameUI.activeSelf || NewGameUI.activeSelf) && Input.GetKeyDown(KeyCode.Escape))
+        if ((StartGameUI.activeSelf || NewGameUI.activeSelf || settingsPanel.activeSelf) && Input.GetKeyDown(KeyCode.Escape))
         {
             if (StartGameUI.activeSelf) StartGameUI.SetActive(false);
             else if (NewGameUI.activeSelf) NewGameUI.SetActive(false);
+            else if (settingsPanel.activeSelf) settingsPanel.SetActive(false);
         }
     }
 
@@ -136,4 +140,23 @@ public class MainMenuUI : MonoBehaviour
         yield return new WaitForSeconds(time);
         SleepFade.SetActive(false);
     }
+
+    #region "Settings"
+
+    public void OpenSettings()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
+        if (!settingsPanel.activeSelf) settingsPanel.SetActive(true);
+    }
+
+    public void ExitSettings()
+    {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlaySFX("Menu",false);
+
+        if (settingsPanel.activeSelf) settingsPanel.SetActive(false);
+    }
+    #endregion
 }

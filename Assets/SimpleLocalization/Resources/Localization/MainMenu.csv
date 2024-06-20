@@ -1,0 +1,21 @@
+Key,English,Spanish
+UI.Start,Start,Jugar
+UI.Exit,Exit,Salir
+UI.Continue,Continue,Continuar
+UI.NewGame,New Game,Nueva Partida
+UI.PlayerName,Player name,Nombre del jugador
+UI.NewGameWarning,(Delete all game data and start a new game),(Elimina todos los datos de la partida y empieza una nueva)
+UI.Day,Day,Dia
+,,
+UI.Sleep,Sleep,Dormir
+UI.FromHouse,Go to town,Ir al pueblo
+UI.FromTown,Return home,Volver a casa
+,,
+InfoCoinsChest,Awarded coins upon harvest,Monedas ganadas al recolectar
+InfoCoinsStore,Cost in coins,Costo en monedas
+InfoEnergy,Energy lost upon harvest,Consumo de energia al recolectar
+InfoTime,Time to grow,Tiempo que demora en crecer
+InfoAmount,Amount of seeds in storage,Cantidad de semillas en inventario
+,,
+UI.ExitWarning,(Loose current progress),(Pierde el progreso actual)
+UI.SaveAndExit,Save and exit,Guardar y salir

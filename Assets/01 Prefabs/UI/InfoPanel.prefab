@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 6229171900805482105}
   - component: {fileID: 4220869174941240831}
   - component: {fileID: 163782282533759457}
+  - component: {fileID: 1449441597888523177}
   m_Layer: 0
   m_Name: TextCont
   m_TagString: Untagged
@@ -450,6 +451,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1449441597888523177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803530785223734001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b675e8c157a546f4b82f03ab474e01d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LocalizationKey: InfoCoinsChest
 --- !u!1 &4324730880817169327
 GameObject:
   m_ObjectHideFlags: 0

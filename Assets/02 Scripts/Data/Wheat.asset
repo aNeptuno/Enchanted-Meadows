@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c725f7b50daca2749a5b772d70d659f6, type: 3}
   m_Name: Wheat
   m_EditorClassIdentifier: 
-  cropName: Wheat
+  cropID: Wheat
   growTime: 10
   earnCoins: 40
   seedCost: 20
