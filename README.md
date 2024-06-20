@@ -1,4 +1,4 @@
-# Enchanted Meadows
+# 🌿✨ Enchanted Meadows ✨ 🌿
 
 Enchanted Meadows is a 2D top-down pixel art game developed with Unity. <br>
 Inmerse yourself in a charming farming adventure where you must plant, harvest, and manage resources to thrive. 
